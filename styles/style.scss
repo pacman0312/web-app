@@ -1,0 +1,20 @@
+@mixin font($font_name, $file_name, $weight, $style) {
+
+    @font-face {
+        font-family: $font_name;
+        font-display: swap;
+        src: url("../fonts/ready/#{$file_name}.woff") format("woff"),
+        url("../fonts/ready/#{$file_name}.woff2") format("woff2");
+        font-weight: #{$weight};
+        font-style: #{$style};
+    }
+}
+
+@import './fonts';
+@import './settings/null';
+@import './settings/colors';
+@import './settings/z-index';
+
+@import './app';
+
+@import './components/main';
