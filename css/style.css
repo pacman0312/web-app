@@ -1,19 +1,7 @@
-@font-face {
-  font-family: "Comfortaa";
-  font-display: swap;
-  src: url("../fonts/ready/Comfortaa-Bold.woff") format("woff"), url("../fonts/ready/Comfortaa-Bold.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
+@import url("https://fonts.googleapis.com/css2?family=Spectral:wght@300;
 
-@font-face {
-  font-family: "Comfortaa";
-  font-display: swap;
-  src: url("../fonts/ready/Comfortaa-Bold.woff") format("woff"), url("../fonts/ready/Comfortaa-Bold.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-}
-
+400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -112,17 +100,17 @@ body {
 }
 
 .app * {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Spectral', serif;
   font-weight: 400;
   font-style: normal;
 }
 
 .app .after::after {
   content: '';
-  width: 2rem;
+  width: 1rem;
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 2rem;
-  flex: 0 0 2rem;
+  -ms-flex: 0 0 1rem;
+  flex: 0 0 1rem;
   min-height: .1rem;
 }
 
@@ -168,11 +156,116 @@ body {
   overflow: hidden;
 }
 
-.app-touch-main__wrap {
-  padding: 0 1rem;
+.app-touch-main__scroll {
+  padding: 1rem 0;
   position: relative;
   width: 100%;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.app-touch-main__section_goods {
+  padding: 0 1rem;
+}
+
+.app-touch-main .goods__see-all {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.app-touch-main .goods__wrap-scroll {
+  margin: 0 -1rem;
+  overflow: hidden;
+  height: 32rem;
+  padding: 1rem 0;
+}
+
+.app-touch-main .goods__scroll {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
+  height: 37rem;
+  padding: 0 1rem;
+}
+
+.app-touch-main .goods__scroll .good {
+  width: 18rem;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 18rem;
+  flex: 0 0 18rem;
+  height: 30rem;
+  margin-right: 1rem;
+  -webkit-box-shadow: 0 .05rem .1rem #ccc;
+  box-shadow: 0 .05rem .1rem #ccc;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.app-touch-main .goods__scroll .good:last-of-type {
+  margin-right: 0;
+}
+
+.app-touch-main .goods__scroll .good__content {
+  width: 100%;
+  height: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+  grid-template-columns: 1fr;
+  -ms-grid-rows: 1fr 4.75rem;
+  grid-template-rows: 1fr 4.75rem;
+  overflow: hidden;
+}
+
+.app-touch-main .goods__scroll .good__wrap-img {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.app-touch-main .goods__scroll .good__wrap-text {
+  position: relative;
+}
+
+.app-touch-main .goods__scroll .good__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  z-index: 2;
+}
+
+.app-touch-main .goods__scroll .good__time {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+  color: #fff;
+}
+
+.app-touch-main .goods__scroll .good__name {
+  font-size: 1rem;
+  line-height: 1.4;
+  padding: 1rem;
+  font-family: 'Spectral', serif;
 }

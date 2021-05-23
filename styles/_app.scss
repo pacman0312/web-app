@@ -5,15 +5,15 @@ body {
 
 .app {
     * {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Spectral', serif;
         font-weight: 400;
         font-style: normal;
     }
 
     & .after::after {
         content: '';
-        width: 2rem;
-        flex: 0 0 2rem;
+        width: 1rem;
+        flex: 0 0 1rem;
         min-height: .1rem;
     }
 

@@ -1,5 +1,6 @@
 [
     {
+        "id": "1",
         "name": "Паста со сливками",
         "nameMin": "Паста",
         "img": "images/5.jpg",
@@ -9,6 +10,7 @@
         "main": "."
     },
     {
+        "id": "2",
         "name": "Пицца маргарита",
         "nameMin": "Маргарита",
         "img": "images/4.jpg",
@@ -18,7 +20,8 @@
         "main": "."
     },
     {
-        "name": "Сэндвичи с сыром и помидоками",
+        "id": "3",
+        "name": "Сэндвичи с сыром <br> и помидоками",
         "nameMin": "Бутики с сыром <br> и помидорками",
         "img": "images/1.jpg",
         "ingredients": "батон, сыр, помидоры, соль, пергаментная бумага",
@@ -27,6 +30,7 @@
         "main": "."
     },
     {
+        "id": "4",
         "name": "Яйца",
         "nameMin": "Яйца",
         "img": "images/3.jpg",
@@ -36,6 +40,7 @@
         "main": ""
     },
     {
+        "id": "5",
         "name": "Пицца 4 сыра",
         "nameMin": "4 сыра",
         "img": "https://images.unsplash.com/photo-1571066811602-716837d681de?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=462&q=80",
@@ -45,6 +50,7 @@
         "main": ""
     },
     {
+        "id": "6",
         "name": "Блинчики со сгущенкой",
         "nameMin": "Блинчики",
         "img": "images/2.jpg",

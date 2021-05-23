@@ -7,14 +7,109 @@
     height: 100%;
     overflow: hidden;
 
-    &__wrap {
-        padding: 0 1rem;
+    &__scroll {
+        padding: 1rem 0;
         position: relative;
         width: 100%;
         height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+    }
 
-        // 89276684298
+    &__section {
+
+        &_goods {
+            padding: 0 1rem;
+        }
+    }
+
+    &__goods {}
+
+    & .goods {
+
+        &__see-all {
+            display: flex;
+            justify-content: flex-end;
+
+        }
+
+        &__wrap-scroll {
+            margin: 0 -1rem;
+            overflow: hidden;
+            height: 32rem;
+            padding: 1rem 0;
+        }
+
+        &__scroll {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-y: hidden;
+            overflow-x: auto;
+            height: 37rem;
+            padding: 0 1rem;
+
+
+
+            & .good {
+                width: 18rem;
+                flex: 0 0 18rem;
+                height: 30rem;
+                margin-right: 1rem;
+                box-shadow: 0 .05rem .1rem #ccc;
+                overflow: hidden;
+                border-radius: 1rem;
+
+                &:last-of-type {
+                    margin-right: 0;
+                }
+
+                &__content {
+                    width: 100%;
+                    height: 100%;
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    grid-template-rows: 1fr 4.75rem;
+                    overflow: hidden;
+                }
+
+                &__wrap-img {
+                    width: 100%;
+                    overflow: hidden;
+                    position: relative;
+                    z-index: 1;
+                }
+
+                &__wrap-text {
+                    position: relative;
+                }
+
+                &__img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    z-index: 2;
+                }
+
+                &__time {
+                    position: absolute;
+                    right: 1rem;
+                    bottom: 1rem;
+                    z-index: 3;
+                    color: #fff;
+                }
+
+                &__name {
+                    font-size: 1rem;
+                    line-height: 1.4;
+                    padding: 1rem;
+                    font-family: 'Spectral', serif;
+                }
+            }
+        }
     }
 }
