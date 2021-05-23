@@ -17,6 +17,10 @@ body {
         min-height: .1rem;
     }
 
+    & .cursor-none {
+        cursor: none;
+    }
+
     &-touch {
         position: absolute;
         top: 0;

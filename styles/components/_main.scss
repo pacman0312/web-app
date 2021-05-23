@@ -97,6 +97,8 @@
                 box-shadow: 0 .05rem .1rem #ccc;
                 overflow: hidden;
                 border-radius: 1rem;
+                position: relative;
+                z-index: 10;
 
                 &:last-of-type {
                     margin-right: 0;

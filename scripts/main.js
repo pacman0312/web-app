@@ -13,6 +13,11 @@ const contentApp = {
             title: 'Выбирай и готовь!',
             seeAll: 'see all'
         }
+    },
+    form: {
+        title: 'Необходимые продукты',
+        everything: 'все',
+        nothing: 'ничего'   
     }
 };
 
@@ -89,19 +94,98 @@ const createAppTouchGoods = (app, createEl, el, elClass, elPosition) => {
     const element = createEl(app, el, elClass, elPosition);
     return element;
 };
-const createAppTouchForm = (app, createEl, el, elClass, elPosition) => {
+const createAppTouchForm = (app, createEl, el, elClass, elPosition, content) => {
     const element = createEl(app, el, elClass, elPosition);
 
     const elementCode = `
-        <div class="app-touch-form__wrap">
-            <div class="app-touch-form__wrap-form">
-
-            </div>
+        <div class="app-touch-form__close"></div>
+        <div class="app-touch-form__wrap-form">
+            <div class="app-touch-form__swipe"></div>
+            <form action="#" id="form" class="form">
+                <input class="form__name" type="text" name="name" value="">
+                <div class="form__title">
+                    <h2>${content.title}</h2>
+                </div>
+                <div class="form__ingredients"></div>
+                <div class="form__btn">
+                    <button class="form__btn-submit cursor-none" type="submit">Отправить</button>
+                </div>
+            </form>
         </div>
     `; 
 
     element.insertAdjacentHTML(elPosition, elementCode);
     return element;
+};
+
+const openForm = (appTF, fWrapForm, fName, fIngredients, name, ingredients, content) => {
+
+    fName.setAttribute('value', name);
+    const ingredientsArr = ingredients.split(', ');
+
+    for (const ingredient of ingredientsArr) {
+        fIngredients.insertAdjacentHTML('beforeend', `
+            <div class="form__ingredient-el">
+                <span class="form__ingredient-chec"></span>
+                <span class="form__ingredient-name">${ingredient}</span>
+            </div>
+        `);
+    };
+    fIngredients.insertAdjacentHTML('beforeend', `
+        <div class="form__ingredient-el">
+            <span class="form__ingredient-chec"></span>
+            <span class="form__ingredient-name">${content.everything}</span>
+        </div>
+        <div class="form__ingredient-el">
+            <span class="form__ingredient-chec"></span>
+            <span class="form__ingredient-name">${content.nothing}</span>
+        </div>
+    `); 
+
+    appTF.style.opacity = '1';
+    appTF.style.visibility = 'visible';
+
+    setTimeout(() => {
+        fWrapForm.style.transform = 'translateY(0%)';
+    }, 300);
+
+    const ingEl = document.querySelectorAll('.form__ingredient-el');
+    let ingElArr = [];
+
+    for (const ing of ingEl) {
+        const ingChec = ing.children[0];
+        const ingName = ing.children[1].textContent;
+
+        ing.addEventListener('click', function() {
+            ingChec.classList.toggle('active');
+
+            if (ingChec.classList.contains('active')) {
+                ingElArr.push(ingName);
+            } else {
+                const food = ingElArr.find((ing) => {
+                    return ing === ingName;
+                });
+
+                if (food) ingElArr.splice(ingElArr.indexOf(food), 1);
+            }
+
+            console.log(ingElArr);
+        }, false);
+    };
+};
+
+const closeForm = (appTF, fWrapForm, fName, fIngredients) => {
+    fWrapForm.style.transform = 'translateY(100%)';
+
+    setTimeout(() => {
+        appTF.style.opacity = '0';
+        appTF.style.visibility = 'hidden';
+        
+        setTimeout(() => {
+            fName.setAttribute('value', '');
+            fIngredients.textContent = '';
+        }, 100);
+    }, 300);
 };
 
 const appLog = (t, tm, tg, tf) => {
@@ -117,7 +201,9 @@ const appTouch = (
     cAppTouch,
     cAppTouchMain,
     cAppTouchGoods,
-    cAppTouchForm
+    cAppTouchForm,
+    openForm,
+    closeForm,
 ) => {
     resize(hideApp, showApp);
 
@@ -152,20 +238,21 @@ const appTouch = (
     const appTouch = cAppTouch(app, cElements, 'div', 'app-touch', 'beforeend');
     const appTouchMain = cAppTouchMain(appTouch, cElements, 'main', 'app-touch-main', 'beforeend', contentApp.main);
     const appTouchGood = cAppTouchGoods(appTouch, cElements, 'div', 'app-touch-good', 'beforeend');
-    const appTouchForm = cAppTouchForm(appTouch, cElements, 'div', 'app-touch-form', 'beforeend');
-    const appTouchFormWrap = appTouchForm.children[0];
-    const appTouchFormWrapForm = appTouchForm.children[0].children[0];
+    const appTouchForm = cAppTouchForm(appTouch, cElements, 'div', 'app-touch-form', 'beforeend', contentApp.form);
 
     const toCreateGoods = document.querySelector('.goods__scroll');
+    
+    const formClose = appTouchForm.children[0];
+    const formWrapForm = appTouchForm.children[1];
+    const formSwipe = formWrapForm.children[0];
+    const formName = document.querySelector('.form__name');
+    const fromIngredients = document.querySelector('.form__ingredients');
+
+    let formSwipeX = null;
+    let formSwipeY = null;
 
     appLog(appTouch, appTouchMain, appTouchGood, appTouchForm);
 
-    window.addEventListener('resize', function(windowWidth) {
-        windowWidth = window.innerWidth;
-
-        if (windowWidth > breakpointWidth) hideApp();
-        else showApp();
-    });
     toCreateGoods.addEventListener('click', function(event) {
         const target = event.target;
         const item = target.closest('.good');
@@ -173,21 +260,44 @@ const appTouch = (
         if (item) {
             const itemName = item.dataset.name;
             const itemCleanName = itemName.split(' <br> ').join(' ');
-
             const itemIngredients = item.dataset.ingredients;
-            
 
-            appTouchForm.style.opacity = '1';
-            appTouchForm.style.visibility = 'visible';
-
-            setTimeout(() => {
-                appTouchFormWrapForm.style.transform = 'translateY(0%)';
-            }, 300);
-
-            appTouchFormWrap.addEventListener('click', function() {
-                
-            });
+            openForm(appTouchForm, formWrapForm, formName, fromIngredients, itemCleanName, itemIngredients, contentApp.form);
         };
+    }, false);
+
+    formClose.addEventListener('click', function() {
+        closeForm(appTouchForm, formWrapForm, formName, fromIngredients);
+    }, false);
+    formSwipe.addEventListener('touchstart', function(event) {
+        const formSwipe = event.touches[0];
+        formSwipeX = formSwipe.clientX;
+        formSwipeY = formSwipe.clientY;
+    }, false);
+    formSwipe.addEventListener('touchmove', function(event) {
+        if (!formSwipeX || !formSwipeY) return false;
+
+        const formSwipe = event.touches[0];
+
+        let formSwipeX2 = formSwipe.clientX;
+        let formSwipeY2 = formSwipe.clientY;
+        
+        let formSwipeXDiff = formSwipeX2 - formSwipeX;
+        let formSwipeYDiff = formSwipeY2 - formSwipeY;
+
+        if (Math.abs(formSwipeYDiff) > Math.abs(formSwipeXDiff)) {
+            if (formSwipeYDiff > 0) {
+                closeForm(appTouchForm, formWrapForm, formName, fromIngredients);
+            };
+            return false; 
+        }
+    }, false);
+
+    window.addEventListener('resize', function(windowWidth) {
+        windowWidth = window.innerWidth;
+
+        if (windowWidth > breakpointWidth) hideApp();
+        else showApp();
     });
 };
 
@@ -201,6 +311,8 @@ if (touchScreen) {
         createAppTouch,
         createAppTouchMain,
         createAppTouchGoods,
-        createAppTouchForm
+        createAppTouchForm,
+        openForm,
+        closeForm,
     );
 } else appDesktop()
