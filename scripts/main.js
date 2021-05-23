@@ -63,7 +63,10 @@ const createAppTouchMain = (app, createEl, el, elClass, elPosition, content) => 
     const elementCode = `
         <div class="app-touch-main__scroll">
             <section class="app-touch-main__section app-touch-main__section_screen">
-                
+                <div class="app-touch-main__parallax"></div>
+                <div class="app-touch-main__look">
+                    Look
+                </div>
             </section>
             <section class="app-touch-main__section app-touch-main__section_goods">
                 <h1 class="app-touch-title app-touch-title_goods">${content.goods.title}</h1>
@@ -80,7 +83,6 @@ const createAppTouchMain = (app, createEl, el, elClass, elPosition, content) => 
     `;
     
     element.insertAdjacentHTML(elPosition, elementCode);
-
     return element;
 };
 const createAppTouchGoods = (app, createEl, el, elClass, elPosition) => {
@@ -89,6 +91,16 @@ const createAppTouchGoods = (app, createEl, el, elClass, elPosition) => {
 };
 const createAppTouchForm = (app, createEl, el, elClass, elPosition) => {
     const element = createEl(app, el, elClass, elPosition);
+
+    const elementCode = `
+        <div class="app-touch-form__wrap">
+            <div class="app-touch-form__wrap-form">
+
+            </div>
+        </div>
+    `; 
+
+    element.insertAdjacentHTML(elPosition, elementCode);
     return element;
 };
 
@@ -141,6 +153,8 @@ const appTouch = (
     const appTouchMain = cAppTouchMain(appTouch, cElements, 'main', 'app-touch-main', 'beforeend', contentApp.main);
     const appTouchGood = cAppTouchGoods(appTouch, cElements, 'div', 'app-touch-good', 'beforeend');
     const appTouchForm = cAppTouchForm(appTouch, cElements, 'div', 'app-touch-form', 'beforeend');
+    const appTouchFormWrap = appTouchForm.children[0];
+    const appTouchFormWrapForm = appTouchForm.children[0].children[0];
 
     const toCreateGoods = document.querySelector('.goods__scroll');
 
@@ -151,6 +165,29 @@ const appTouch = (
 
         if (windowWidth > breakpointWidth) hideApp();
         else showApp();
+    });
+    toCreateGoods.addEventListener('click', function(event) {
+        const target = event.target;
+        const item = target.closest('.good');
+
+        if (item) {
+            const itemName = item.dataset.name;
+            const itemCleanName = itemName.split(' <br> ').join(' ');
+
+            const itemIngredients = item.dataset.ingredients;
+            
+
+            appTouchForm.style.opacity = '1';
+            appTouchForm.style.visibility = 'visible';
+
+            setTimeout(() => {
+                appTouchFormWrapForm.style.transform = 'translateY(0%)';
+            }, 300);
+
+            appTouchFormWrap.addEventListener('click', function() {
+                
+            });
+        };
     });
 };
 
