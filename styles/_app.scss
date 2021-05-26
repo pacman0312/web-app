@@ -5,8 +5,8 @@ body {
 
 .app {
     * {
-        font-family: 'Spectral', serif;
-        font-weight: 400;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
         font-style: normal;
     }
 
@@ -22,7 +22,7 @@ body {
     }
 
     &-touch {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
@@ -33,10 +33,5 @@ body {
         flex-direction: column;
         background-color: $black;
         overflow: hidden;
-
-        &-main,
-        &-goods {
-            transition: all .3s ease 0s;
-        }
     }
 }

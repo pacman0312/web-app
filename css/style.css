@@ -1,7 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Spectral:wght@300;
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;
 
-400;500;600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
+500;600;700&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -98,6 +97,10 @@ h6 {
   z-index: 1;
 }
 
+.app-touch-good {
+  z-index: 2;
+}
+
 .app-touch-form {
   z-index: 1000;
 }
@@ -128,8 +131,8 @@ body {
 }
 
 .app * {
-  font-family: 'Spectral', serif;
-  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -147,7 +150,7 @@ body {
 }
 
 .app-touch {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -169,11 +172,21 @@ body {
   overflow: hidden;
 }
 
-.app-touch-main,
-.app-touch-goods {
-  -webkit-transition: all .3s ease 0s;
-  -o-transition: all .3s ease 0s;
-  transition: all .3s ease 0s;
+.app-touch-title {
+  font-size: 1.3rem;
+}
+
+.app-touch-back {
+  width: 100%;
+  background-color: #fff;
+}
+
+.app-touch-back__wrap {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1rem;
 }
 
 .app-touch-main {
@@ -190,10 +203,11 @@ body {
 
 .app-touch-main__scroll {
   position: relative;
-  width: 100%;
+  width: 120%;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-right: 20%;
 }
 
 .app-touch-main__section_screen {
@@ -212,11 +226,12 @@ body {
   -ms-flex-pack: end;
   justify-content: flex-end;
   z-index: 1;
+  display: none;
 }
 
 .app-touch-main__section_goods {
   width: 100%;
-  padding: 1rem;
+  padding: 2rem 1rem 1rem 1rem;
 }
 
 .app-touch-main__parallax {
@@ -230,6 +245,7 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
   z-index: 2;
 }
 
@@ -243,6 +259,7 @@ body {
   z-index: 3;
   overflow: hidden;
   padding: 2rem;
+  font-family: 'Yeseva One', cursive;
 }
 
 .app-touch-main .goods__see-all {
@@ -252,13 +269,20 @@ body {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;
+  padding-top: 1rem;
+}
+
+.app-touch-main .goods__see-all span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #999;
 }
 
 .app-touch-main .goods__wrap-scroll {
   margin: 0 -1rem;
-  overflow: hidden;
   height: 32rem;
-  padding: 1rem 0;
+  padding-top: 1rem;
 }
 
 .app-touch-main .goods__scroll {
@@ -269,21 +293,17 @@ body {
   flex-wrap: nowrap;
   overflow-y: hidden;
   overflow-x: auto;
-  height: 37rem;
+  height: 40rem;
   padding: 0 1rem;
 }
 
 .app-touch-main .goods__scroll .good {
-  width: 18rem;
+  width: 15.7rem;
   -webkit-box-flex: 0;
-  -ms-flex: 0 0 18rem;
-  flex: 0 0 18rem;
-  height: 30rem;
-  margin-right: 1rem;
-  -webkit-box-shadow: 0 .05rem .1rem #ccc;
-  box-shadow: 0 .05rem .1rem #ccc;
-  overflow: hidden;
-  border-radius: 1rem;
+  -ms-flex: 0 0 15.7rem;
+  flex: 0 0 15.7rem;
+  min-height: 10px;
+  margin-right: .5rem;
   position: relative;
   z-index: 10;
 }
@@ -294,25 +314,16 @@ body {
 
 .app-touch-main .goods__scroll .good__content {
   width: 100%;
-  height: 100%;
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 1fr;
-  grid-template-columns: 1fr;
-  -ms-grid-rows: 1fr 4.75rem;
-  grid-template-rows: 1fr 4.75rem;
-  overflow: hidden;
 }
 
 .app-touch-main .goods__scroll .good__wrap-img {
   width: 100%;
+  height: 21.7rem;
   overflow: hidden;
   position: relative;
   z-index: 1;
-}
-
-.app-touch-main .goods__scroll .good__wrap-text {
-  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
 }
 
 .app-touch-main .goods__scroll .good__img {
@@ -332,14 +343,162 @@ body {
   bottom: 1rem;
   z-index: 3;
   color: #fff;
-  font-family: 'Inter', serif;
+}
+
+.app-touch-main .goods__scroll .good__wrap-text {
+  width: 100%;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .app-touch-main .goods__scroll .good__name {
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: .9rem;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.app-touch-good {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  overflow: hidden;
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all .3s ease 0s;
+  -o-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+}
+
+.app-touch-good.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.app-touch-good__scroll {
+  position: relative;
+  width: 120%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 20%;
+}
+
+.app-touch-good__categories {
+  width: 100%;
+  -webkit-box-shadow: 0 .1rem .1rem #f2f2f2;
+  box-shadow: 0 .1rem .1rem #f2f2f2;
+  height: 3rem;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.app-touch-good__categories-scroll {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
+  height: 6rem;
+}
+
+.app-touch-good__categories-el {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  height: 3rem;
+  padding: 0 1rem;
+  border-bottom: .1rem solid transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.app-touch-good__categories-el.active {
+  border-color: #000;
+}
+
+.app-touch-good__goods {
+  width: 100%;
   padding: 1rem;
-  font-family: 'Inter', serif;
+  padding-top: 7rem;
+}
+
+.app-touch-good__goods-wrap {
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.app-touch-good .good {
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0.05rem 0.1rem #ccc;
+  box-shadow: 0 0.05rem 0.1rem #ccc;
+  height: auto;
+}
+
+.app-touch-good .good__wrap-img {
+  position: relative;
+  padding-bottom: 125%;
+}
+
+.app-touch-good .good__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.app-touch-good .good__wrap-text {
+  padding: 1rem .5rem;
+}
+
+.app-touch-good .good__name {
+  font-size: .9rem;
+}
+
+.app-touch-good .app-touch-back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.app-touch-good__categories {
+  position: fixed;
+  top: 3rem;
+  left: 0;
+  width: 100%;
+  z-index: 10;
 }
 
 .app-touch-form {
@@ -357,6 +516,11 @@ body {
   -webkit-transition: all .3s ease 0s;
   -o-transition: all .3s ease 0s;
   transition: all .3s ease 0s;
+}
+
+.app-touch-form.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 .app-touch-form__close {
@@ -397,6 +561,12 @@ body {
   transition: transform .3s ease 0s, -webkit-transform .3s ease 0s;
 }
 
+.app-touch-form__wrap-form.active {
+  -webkit-transform: none;
+  -ms-transform: none;
+  transform: none;
+}
+
 .app-touch-form .form {
   width: 100%;
   height: 100%;
@@ -409,7 +579,8 @@ body {
   grid-template-rows: 3rem 1fr 3rem;
 }
 
-.app-touch-form .form__name {
+.app-touch-form .form__name-submit,
+.app-touch-form .form__ingredients-submit {
   position: absolute;
   top: 0;
   left: 0;
@@ -453,6 +624,15 @@ body {
   padding: .5rem 0;
 }
 
+.app-touch-form .form__ingredient-el.active .form__ingredient-chec {
+  border: .4rem solid #fff;
+  background-color: #000;
+}
+
+.app-touch-form .form__ingredient-el.nothing {
+  margin-top: 1rem;
+}
+
 .app-touch-form .form__ingredient-chec {
   width: 1.4rem;
   height: 1.4rem;
@@ -463,11 +643,6 @@ body {
   -webkit-transition: all .2s ease 0s;
   -o-transition: all .2s ease 0s;
   transition: all .2s ease 0s;
-}
-
-.app-touch-form .form__ingredient-chec.active {
-  border: .4rem solid #fff;
-  background-color: #000;
 }
 
 .app-touch-form .form__btn {

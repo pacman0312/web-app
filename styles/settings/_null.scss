@@ -1,20 +1,35 @@
 * {
     margin: 0;
     padding: 0;
-    border: 0; 
+    border: 0;
     font-family: sans-serif;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-:focus, :active {outline: none;}
-a:focus, a:active {outline: none;}
+:focus,
+:active {
+    outline: none;
+}
 
-header, nav, aside, footer {display: block;}
+a:focus,
+a:active {
+    outline: none;
+}
 
-html, body {
+header,
+nav,
+aside,
+footer {
+    display: block;
+}
+
+html,
+body {
     height: 100%;
     width: 100%;
     font-size: 100%;
@@ -23,15 +38,50 @@ html, body {
     text-size-adjust: 100%;
 }
 
-input, button, textarea, select {font-family: inherit; font: inherit;}
-input::-ms-clear {display: none;}
-button {cursor: pointer;}
-button::-moz-focus-inner {padding: 0; border: 0;}
-a, a:visited, a:hover {text-decoration: none;}
-ul, ol, li {list-style-type: none;}
+input,
+button,
+textarea,
+select {
+    font-family: inherit;
+    font: inherit;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+a,
+a:visited,
+a:hover {
+    text-decoration: none;
+}
+
+ul,
+ol,
+li {
+    list-style-type: none;
+}
+
 img {
     max-width: 100%;
     display: block;
 }
 
-h1, h2, h3, h4, h5, h6 {font-size: inherit; font-weight: 400;}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: 400;
+}

@@ -17,5 +17,11 @@
 
 @import './app';
 
+@import './content/content';
+
+@import './components/back';
 @import './components/main';
+@import './components/goods';
 @import './components/form';
+
+@import './settings/active-el';

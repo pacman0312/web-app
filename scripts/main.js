@@ -11,13 +11,12 @@ const contentApp = {
     main: {
         goods: {
             title: 'Выбирай и готовь!',
-            seeAll: 'see all'
+            seeAll: 'все'
         }
     },
     form: {
         title: 'Необходимые продукты',
-        everything: 'все',
-        nothing: 'ничего'   
+        nothing: 'все есть'   
     }
 };
 
@@ -27,19 +26,28 @@ const hideApp = () => {
     app.style.visibility = 'hidden';
     console.log(hideAppLog);
 };
-
 const showApp = () => {
     app.style.opacity = '1';
     app.style.visibility = 'visible';
     console.log(showAppLog);
 };
-
 const resizeApp = (hide, show) => {
     if (windowWidth > breakpointWidth) {
         hide();
     } else {
         show();
     }
+};
+
+const appBack = (element, icon, title) => {
+    element.insertAdjacentHTML('beforeend', `
+        <div class="app-touch-back">
+            <div class="app-touch-back__wrap">
+                <div class="app-touch-back__icon">${icon}</div>
+                <h2 class="app-touch-back__title">${title}</h2>
+            </div>
+        </div>
+    `);
 };
 
 const appGetData = async url => {
@@ -57,7 +65,6 @@ const createElements = (app, tag, tagClass, tagPosition) => {
     app.insertAdjacentElement(tagPosition, element);
     return element;
 };
-
 const createAppTouch = (app, createEl, el, elClass, elPosition) => {
     const element = createEl(app, el, elClass, elPosition);
     return element;
@@ -92,6 +99,10 @@ const createAppTouchMain = (app, createEl, el, elClass, elPosition, content) => 
 };
 const createAppTouchGoods = (app, createEl, el, elClass, elPosition) => {
     const element = createEl(app, el, elClass, elPosition);
+
+    const elementCode = `<div class="app-touch-good__scroll"></div>`;
+    
+    element.insertAdjacentHTML(elPosition, elementCode);
     return element;
 };
 const createAppTouchForm = (app, createEl, el, elClass, elPosition, content) => {
@@ -102,7 +113,8 @@ const createAppTouchForm = (app, createEl, el, elClass, elPosition, content) => 
         <div class="app-touch-form__wrap-form">
             <div class="app-touch-form__swipe"></div>
             <form action="#" id="form" class="form">
-                <input class="form__name" type="text" name="name" value="">
+                <input class="form__name-submit" type="text" name="name" value="">
+                <input class="form__ingredients-submit" type="text" name="ingredients" value="">
                 <div class="form__title">
                     <h2>${content.title}</h2>
                 </div>
@@ -118,9 +130,8 @@ const createAppTouchForm = (app, createEl, el, elClass, elPosition, content) => 
     return element;
 };
 
-const openForm = (appTF, fWrapForm, fName, fIngredients, name, ingredients, content) => {
-
-    fName.setAttribute('value', name);
+const openForm = (appTF, fWrapForm, fNameS, fIngredientsS, fIngredients, name, ingredients, content) => {
+    fNameS.setAttribute('value', name);
     const ingredientsArr = ingredients.split(', ');
 
     for (const ingredient of ingredientsArr) {
@@ -132,61 +143,122 @@ const openForm = (appTF, fWrapForm, fName, fIngredients, name, ingredients, cont
         `);
     };
     fIngredients.insertAdjacentHTML('beforeend', `
-        <div class="form__ingredient-el">
-            <span class="form__ingredient-chec"></span>
-            <span class="form__ingredient-name">${content.everything}</span>
-        </div>
-        <div class="form__ingredient-el">
+        <div class="form__ingredient-el nothing">
             <span class="form__ingredient-chec"></span>
             <span class="form__ingredient-name">${content.nothing}</span>
         </div>
     `); 
 
-    appTF.style.opacity = '1';
-    appTF.style.visibility = 'visible';
-
+    appTF.classList.add('active');
     setTimeout(() => {
-        fWrapForm.style.transform = 'translateY(0%)';
+        fWrapForm.classList.add('active');
     }, 300);
 
-    const ingEl = document.querySelectorAll('.form__ingredient-el');
-    let ingElArr = [];
+    const ingElements = document.querySelectorAll('.form__ingredient-el');
+    const ingElementNothing = document.querySelector('.form__ingredient-el.nothing');
+    let ingArr = [];
 
-    for (const ing of ingEl) {
-        const ingChec = ing.children[0];
+    for (const ing of ingElements) {
         const ingName = ing.children[1].textContent;
-
+        
         ing.addEventListener('click', function() {
-            ingChec.classList.toggle('active');
+            this.classList.toggle('active');
 
-            if (ingChec.classList.contains('active')) {
-                ingElArr.push(ingName);
+            if (ing.classList.contains('active')) {
+                ing.classList.add('active');
+
+                if (ingName === content.nothing) {
+                    ingArr = [];
+
+                    for (const ing2 of ingElements) {
+                        ing2.classList.remove('active');
+                    }
+                    ingElementNothing.classList.add('active');
+
+                    ingArr.push(ingElementNothing.children[1].textContent);
+                } else {
+                    ingElementNothing.classList.remove('active');
+
+                    const ingredients = ingArr.find(item => item === content.nothing);
+                    if (ingredients) ingArr.splice(ingArr.indexOf(ingredients), 1);
+
+                    ingArr.push(ingName);
+                };
             } else {
-                const food = ingElArr.find((ing) => {
-                    return ing === ingName;
-                });
-
-                if (food) ingElArr.splice(ingElArr.indexOf(food), 1);
-            }
-
-            console.log(ingElArr);
-        }, false);
+                ing.classList.remove('active');
+                
+                if (ingName === content.nothing) {
+                    ingArr = [];
+                } else {
+                    const ingredients = ingArr.find(item => item === ingName);
+                    if (ingredients) ingArr.splice(ingArr.indexOf(ingredients), 1);
+                };
+            };
+            
+            fIngredientsS.setAttribute('value', ingArr.join(', '));
+        });
     };
 };
-
-const closeForm = (appTF, fWrapForm, fName, fIngredients) => {
-    fWrapForm.style.transform = 'translateY(100%)';
+const closeForm = (appTF, fWrapForm, fNameS, fIngredientsS, fIngredients) => {
+    fWrapForm.classList.remove('active');
 
     setTimeout(() => {
-        appTF.style.opacity = '0';
-        appTF.style.visibility = 'hidden';
+        appTF.classList.remove('active');
         
         setTimeout(() => {
-            fName.setAttribute('value', '');
+            fNameS.setAttribute('value', '');
+            fIngredientsS.setAttribute('value', '');
             fIngredients.textContent = '';
         }, 100);
     }, 300);
 };
+
+const goodsCreateContent = (back) => {
+    const goodsScroll = document.querySelector('.app-touch-good__scroll');
+
+    back(goodsScroll, 'icon', 'Выбирай и готовь!');
+
+    goodsScroll.insertAdjacentHTML('beforeend', `
+        <section class="app-touch-good__categories">
+            <div class="app-touch-good__categories-scroll"></div>
+        </section>
+        <section class="app-touch-good__goods">
+            <div class="app-touch-good__goods-wrap"></div>
+        </section>
+    `);
+    const goodsCategories = document.querySelector('.app-touch-good__categories-scroll');
+    const goodsGoods = document.querySelector('.app-touch-good__goods-wrap');
+
+    appGetData('./db/categories.json').then(data => {
+        data.forEach(category => {
+            goodsCategories.insertAdjacentHTML('beforeend', `<div class="app-touch-good__categories-el" data-filter="${category.name}">
+                <span>${category.name}</span>
+            </div>`);
+        });
+    });
+
+    appGetData('./db/goods.json').then(data => {
+        data.forEach(good => {
+            const {
+                id, name, nameMin, img, ingredients: ing, category, time, main
+            } = good;
+
+            goodsGoods.insertAdjacentHTML('beforeend', `
+                <div class="good" data-name="${name}" data-ingredients="${ing}">
+                    <div class="good__content">
+                        <div class="good__wrap-img">
+                            <img src="${img}" alt="good-img-${id}" class="good__img">
+                            <span class="good__time">${time}</span>
+                        </div>
+                        <div class="good__wrap-text">
+                            <div class="good__name">${name}</div>
+                        </div>
+                    </div>
+                </div>
+            `);            
+        });
+    });    
+};  
 
 const appLog = (t, tm, tg, tf) => {
     console.log(t);
@@ -197,6 +269,7 @@ const appLog = (t, tm, tg, tf) => {
 
 const appTouch = (
     resize,
+    back,
     cElements,
     cAppTouch,
     cAppTouchMain,
@@ -208,7 +281,6 @@ const appTouch = (
     resize(hideApp, showApp);
 
     appGetData('./db/goods.json').then(data => {
-
         data.forEach(good => {
             const {
                 id, name, nameMin, img, ingredients: ing, category, time, main
@@ -230,7 +302,7 @@ const appTouch = (
 
             if (main !== '') {
                 console.log(':: In main');
-                toCreateGoods.insertAdjacentHTML('beforeend', goodCode);
+                goodsCreateInMainTouch.insertAdjacentHTML('beforeend', goodCode);
             } else console.log(':: Not in main');
         });
     });
@@ -240,34 +312,44 @@ const appTouch = (
     const appTouchGood = cAppTouchGoods(appTouch, cElements, 'div', 'app-touch-good', 'beforeend');
     const appTouchForm = cAppTouchForm(appTouch, cElements, 'div', 'app-touch-form', 'beforeend', contentApp.form);
 
-    const toCreateGoods = document.querySelector('.goods__scroll');
+    const goodsCreateInMainTouch = document.querySelector('.goods__scroll');
+    const goodsSectionInMainTouch = document.querySelector('.app-touch-main__section_goods');
     
     const formClose = appTouchForm.children[0];
     const formWrapForm = appTouchForm.children[1];
     const formSwipe = formWrapForm.children[0];
-    const formName = document.querySelector('.form__name');
+    const formNameS = document.querySelector('.form__name-submit');
+    const fromIngredientsS = document.querySelector('.form__ingredients-submit');
     const fromIngredients = document.querySelector('.form__ingredients');
-
     let formSwipeX = null;
     let formSwipeY = null;
 
     appLog(appTouch, appTouchMain, appTouchGood, appTouchForm);
 
-    toCreateGoods.addEventListener('click', function(event) {
+    goodsSectionInMainTouch.addEventListener('click', function(event) {
         const target = event.target;
-        const item = target.closest('.good');
-
-        if (item) {
-            const itemName = item.dataset.name;
-            const itemCleanName = itemName.split(' <br> ').join(' ');
-            const itemIngredients = item.dataset.ingredients;
-
-            openForm(appTouchForm, formWrapForm, formName, fromIngredients, itemCleanName, itemIngredients, contentApp.form);
+        const sesAll = target.closest('#see-all-goods');
+        if (sesAll) {
+            appTouchGood.classList.add('active');
+            setTimeout(() => goodsCreateContent(back), 500);
         };
     }, false);
 
+    appTouch.addEventListener('click', function(event) {
+        const target = event.target;
+        const good = target.closest('.good');
+
+        if (good) {
+            const goodName = good.dataset.name;
+            const goodCleanName = goodName.split(' <br> ').join(' ');
+            const goodIngredients = good.dataset.ingredients;
+
+            openForm(appTouchForm, formWrapForm, formNameS, fromIngredientsS, fromIngredients, goodCleanName, goodIngredients, contentApp.form);
+        };
+    });
+
     formClose.addEventListener('click', function() {
-        closeForm(appTouchForm, formWrapForm, formName, fromIngredients);
+        closeForm(appTouchForm, formWrapForm, formNameS, fromIngredientsS, fromIngredients);
     }, false);
     formSwipe.addEventListener('touchstart', function(event) {
         const formSwipe = event.touches[0];
@@ -287,7 +369,7 @@ const appTouch = (
 
         if (Math.abs(formSwipeYDiff) > Math.abs(formSwipeXDiff)) {
             if (formSwipeYDiff > 0) {
-                closeForm(appTouchForm, formWrapForm, formName, fromIngredients);
+                closeForm(appTouchForm, formWrapForm, formNameS, fromIngredientsS, fromIngredients);
             };
             return false; 
         }
@@ -300,13 +382,12 @@ const appTouch = (
         else showApp();
     });
 };
-
 const appDesktop = () => console.log('desktop');
-
 
 if (touchScreen) {
     appTouch(
         resizeApp,
+        appBack,
         createElements,
         createAppTouch,
         createAppTouchMain,
