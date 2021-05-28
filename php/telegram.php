@@ -1,7 +1,7 @@
 <?php
 
 $nameGood => $_POST['name'],
-$ing = $_POST['ing'];
+$ing = $_POST['ingredients'];
 
 $token = '1700135368:AAFDdPSEx9MHKuFnI8g0xWlihw-bTWttpwQ';
 $chatId = '-570341299';

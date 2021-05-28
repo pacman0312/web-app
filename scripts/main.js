@@ -27,7 +27,7 @@ const contentApp = {
         timeText: 'время готвки:',
         title: 'Необходимые продукты',
         nothing: 'из продуктов все есть',
-        submit: 'telegram.php',
+        submit: '#',
         submitBtnText: 'Отправить'
     }
 };
@@ -284,6 +284,10 @@ const openForm = (appTF, fGood, fWrapForm, f, fNameS, fIngredientsS, fIngredient
             fIngredientsS.setAttribute('value', ingArr.join(', '));
         });
     };
+
+    fBtn.addEventListener('click', function() {
+        alert('Этот функционал находится в разработке');
+    });
 
     // f.addEventListener('submit', async function(event) {
     //     event.preventDefault();
