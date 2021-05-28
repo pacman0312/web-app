@@ -1,7 +1,8 @@
 const touchScreen = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const app = document.getElementById('app');
 
-const windowWidth = window.innerWidth;
+const windowWidth = document.documentElement.clientWidth;
+const windowHeight = document.documentElement.clientHeight;
 const breakpointWidth = 500;
 
 const hideAppLog = '-- Hide app';
@@ -10,13 +11,24 @@ const showAppLog = '-- Show app';
 const contentApp = {
     main: {
         goods: {
-            title: 'Выбирай и готовь!',
-            seeAll: 'все'
+            title: 'Выбирай и готовь',
+            seeAll: {
+                text: 'смотреть все',
+                icon: '&rarr;'
+            },
+            loading: 'images/loading.png',
+            choose: 'Выбрать'
         }
     },
+    back: {
+        icon: 'images/icons/back.svg',
+    },
     form: {
+        timeText: 'время готвки:',
         title: 'Необходимые продукты',
-        nothing: 'все есть'   
+        nothing: 'из продуктов все есть',
+        submit: 'telegram.php',
+        submitBtnText: 'Отправить'
     }
 };
 
@@ -38,24 +50,92 @@ const resizeApp = (hide, show) => {
         show();
     }
 };
+const lazyLoading = (elScroll, elImg, windowSize, page) => {
+    const lazyLoadingImg = document.querySelectorAll(elImg);
+    let lazyLoadingImgPositions = [];
 
-const appBack = (element, icon, title) => {
+    const lazy = el => {
+        let indexImg = lazyLoadingImgPositions.findIndex(item => el > item - windowSize);
+        
+        if (indexImg >= 0) {
+            let index = lazyLoadingImg[indexImg].dataset.src;
+
+            if (index) {
+                setTimeout(() => {
+                    lazyLoadingImg[indexImg].classList.add('active');
+                    lazyLoadingImg[indexImg].src = lazyLoadingImg[indexImg].dataset.src;
+                    lazyLoadingImg[indexImg].removeAttribute('data-src');
+                }, 200);
+            }
+            delete lazyLoadingImgPositions[indexImg]
+        }
+    };
+
+    if (lazyLoadingImg.length > 0) {
+        for (const img of lazyLoadingImg) {
+            let dataSrc = img.dataset.src;
+
+            if (page === 'x') {
+                if (dataSrc) {
+                    lazyLoadingImgPositions.push(img.getBoundingClientRect().left + pageXOffset);
+                    lazy(pageXOffset);
+                }
+            } else if (page === 'y') {
+                if (dataSrc) {
+                    lazyLoadingImgPositions.push(img.getBoundingClientRect().top + pageYOffset);
+                    lazy(pageYOffset);
+                }
+            }
+        }
+    }
+
+    elScroll.addEventListener('scroll', function(event) {
+        if (lazyLoadingImg.length > 0) {
+            if (page === 'x') {
+                const scroll = event.target.scrollLeft;
+                lazy(scroll);
+            } else if (page === 'y') {
+                const scroll = event.target.scrollTop;
+                lazy(scroll);
+            }
+        }
+    });
+};
+
+const appBack = (element, title) => {
     element.insertAdjacentHTML('beforeend', `
         <div class="app-touch-back">
             <div class="app-touch-back__wrap">
-                <div class="app-touch-back__icon">${icon}</div>
+                <div class="app-touch-back__icon">
+                    <img src="${contentApp.back.icon}" alt="iconBack">
+                </div>
                 <h2 class="app-touch-back__title">${title}</h2>
             </div>
         </div>
     `);
 };
 
-const appGetData = async url => {
-    const response = await fetch(url);
+const appGetData = async (url, expectation) => {
+    if (expectation === undefined) {
+        const response = await fetch(url);
+    
+        if (!response.ok) throw new Error(`in url: ${response.url} Status: ${response.status}`);
 
-    if (!response.ok) throw new Error(`in url: ${response.url} Status: ${response.status}`);
-
-    return await response.json();
+        return await response.json();
+    } else {
+        const parent = expectation.parentElement;
+        parent.classList.add('expectation');
+    
+        const response = await fetch(url);
+    
+        if (!response.ok) throw new Error(`in url: ${response.url} Status: ${response.status}`);
+    
+        setTimeout(() => {
+            parent.classList.remove('expectation');
+        }, 1000);
+    
+        return await response.json();
+    }
 };
 
 const createElements = (app, tag, tagClass, tagPosition) => {
@@ -74,17 +154,11 @@ const createAppTouchMain = (app, createEl, el, elClass, elPosition, content) => 
 
     const elementCode = `
         <div class="app-touch-main__scroll">
-            <section class="app-touch-main__section app-touch-main__section_screen">
-                <div class="app-touch-main__parallax"></div>
-                <div class="app-touch-main__look">
-                    Look
-                </div>
-            </section>
             <section class="app-touch-main__section app-touch-main__section_goods">
                 <h1 class="app-touch-title app-touch-title_goods">${content.goods.title}</h1>
                 <div class="app-touch-main__goods goods">
                     <div class="goods__see-all">
-                        <span id="see-all-goods">${content.goods.seeAll}</span>
+                        <span id="see-all-goods">${content.goods.seeAll.text}</span>
                     </div>
                     <div class="goods__wrap-scroll">
                         <div class="goods__scroll after"></div>
@@ -112,15 +186,16 @@ const createAppTouchForm = (app, createEl, el, elClass, elPosition, content) => 
         <div class="app-touch-form__close"></div>
         <div class="app-touch-form__wrap-form">
             <div class="app-touch-form__swipe"></div>
-            <form action="#" id="form" class="form">
+            <form action="${content.submit}" id="form" class="form">
                 <input class="form__name-submit" type="text" name="name" value="">
                 <input class="form__ingredients-submit" type="text" name="ingredients" value="">
+                <div class="form__good"></div>
                 <div class="form__title">
                     <h2>${content.title}</h2>
                 </div>
                 <div class="form__ingredients"></div>
                 <div class="form__btn">
-                    <button class="form__btn-submit cursor-none" type="submit">Отправить</button>
+                    <button class="form__btn-submit cursor-none" type="submit">${content.submitBtnText}</button>
                 </div>
             </form>
         </div>
@@ -130,8 +205,19 @@ const createAppTouchForm = (app, createEl, el, elClass, elPosition, content) => 
     return element;
 };
 
-const openForm = (appTF, fWrapForm, fNameS, fIngredientsS, fIngredients, name, ingredients, content) => {
-    fNameS.setAttribute('value', name);
+const openForm = (appTF, fGood, fWrapForm, f, fNameS, fIngredientsS, fIngredients, fBtn, name, nameClean, ingredients, img, time, content) => {
+    fNameS.setAttribute('value', nameClean);
+
+    fGood.insertAdjacentHTML('beforeend', `
+        <div class="form__good-img">
+            <img src="${img}" alt="formGoodImg">
+        </div>
+        <div class="form__good-wrap">
+            <div class="form__good-name">${name}</div>
+            <div class="form__good-time">${content.timeText + ' ' + time}</div>
+        </div>
+    `);
+
     const ingredientsArr = ingredients.split(', ');
 
     for (const ingredient of ingredientsArr) {
@@ -198,8 +284,27 @@ const openForm = (appTF, fWrapForm, fNameS, fIngredientsS, fIngredients, name, i
             fIngredientsS.setAttribute('value', ingArr.join(', '));
         });
     };
+
+    // f.addEventListener('submit', async function(event) {
+    //     event.preventDefault();
+        
+    //     let formData = new FormData(f);
+    //     console.log(formData);
+    //     let response = await fetch('./php/telegram.php', {
+    //         method: 'POST',
+    //         body: formData
+    //     });
+
+    //     if (response.ok) {
+    //         let result = await response.json();
+    //         alert(result.message);
+    //         form.reset();
+    //     } else {
+    //         console.log('Error');
+    //     }
+    // });
 };
-const closeForm = (appTF, fWrapForm, fNameS, fIngredientsS, fIngredients) => {
+const closeForm = (appTF, fGood, fWrapForm, fNameS, fIngredientsS, fIngredients) => {
     fWrapForm.classList.remove('active');
 
     setTimeout(() => {
@@ -208,15 +313,18 @@ const closeForm = (appTF, fWrapForm, fNameS, fIngredientsS, fIngredients) => {
         setTimeout(() => {
             fNameS.setAttribute('value', '');
             fIngredientsS.setAttribute('value', '');
+            fGood.textContent = '';
             fIngredients.textContent = '';
         }, 100);
     }, 300);
 };
 
-const goodsCreateContent = (back) => {
+const goodsCreateContent = (appTG, back) => {
+    appTG.classList.add('active');
+
     const goodsScroll = document.querySelector('.app-touch-good__scroll');
 
-    back(goodsScroll, 'icon', 'Выбирай и готовь!');
+    back(goodsScroll, 'Выбирай и готовь!');
 
     goodsScroll.insertAdjacentHTML('beforeend', `
         <section class="app-touch-good__categories">
@@ -226,38 +334,88 @@ const goodsCreateContent = (back) => {
             <div class="app-touch-good__goods-wrap"></div>
         </section>
     `);
+
     const goodsCategories = document.querySelector('.app-touch-good__categories-scroll');
     const goodsGoods = document.querySelector('.app-touch-good__goods-wrap');
 
     appGetData('./db/categories.json').then(data => {
-        data.forEach(category => {
-            goodsCategories.insertAdjacentHTML('beforeend', `<div class="app-touch-good__categories-el" data-filter="${category.name}">
-                <span>${category.name}</span>
-            </div>`);
+        data.forEach((category, ind) => {
+            ind++;
+            if (ind === 1) {
+                goodsCategories.insertAdjacentHTML('beforeend', `<div class="app-touch-good__categories-el active" data-filter="${category.name}">
+                    <span>${category.name}</span>
+                </div>`);   
+            } else {
+                goodsCategories.insertAdjacentHTML('beforeend', `<div class="app-touch-good__categories-el" data-filter="${category.name}">
+                    <span>${category.name}</span>
+                </div>`);
+            }
         });
     });
 
-    appGetData('./db/goods.json').then(data => {
+    appGetData('./db/goods.json', goodsGoods).then(data => {
         data.forEach(good => {
             const {
                 id, name, nameMin, img, ingredients: ing, category, time, main
             } = good;
 
             goodsGoods.insertAdjacentHTML('beforeend', `
-                <div class="good" data-name="${name}" data-ingredients="${ing}">
+                <div class="good" data-filter="${category}" data-name="${name}" data-ingredients="${ing}" data-img="${img}" data-time="${time}">
                     <div class="good__content">
                         <div class="good__wrap-img">
-                            <img src="${img}" alt="good-img-${id}" class="good__img">
+                            <img data-src="${img}" src="${contentApp.main.goods.loading}" alt="good-img-${id}" class="good__img">
                             <span class="good__time">${time}</span>
                         </div>
                         <div class="good__wrap-text">
                             <div class="good__name">${name}</div>
+                            <div class="good__choose">${contentApp.main.goods.choose}</div>
                         </div>
                     </div>
                 </div>
             `);            
         });
-    });    
+        lazyLoading(goodsScroll, 'img[data-src]', windowHeight, 'y');
+    });  
+    
+    goodsCategories.addEventListener('click', function(event) {
+        const target = event.target;
+        const category = target.closest('.app-touch-good__categories-el');
+
+        if (category) {
+            const categories = document.querySelectorAll('.app-touch-good__categories-el');
+            const goods = document.querySelectorAll('.good');
+
+            const dataFilter = category.dataset.filter;
+            
+            for (const category of categories) {
+                category.classList.remove('active');
+            }
+            category.classList.add('active');
+            goodsScroll.scrollTop = 0;
+            
+            for (const good of goods) {
+                good.classList.remove('show');
+                good.classList.add('hide');
+
+                if (good.dataset.filter === dataFilter || dataFilter === "все") {
+                    good.classList.add('show');
+                    good.classList.remove('hide');
+                }
+            }
+            lazyLoading(goodsScroll, 'img[data-src]', windowHeight, 'y');
+        }
+    }, false);
+
+    appTG.addEventListener('click', function(event) {
+        const target = event.target;
+        const back = target.closest('.app-touch-back');
+
+        if (back) {
+            this.classList.remove('active');
+            goodsScroll.textContent = '';
+        };
+
+    }, false);
 };  
 
 const appLog = (t, tm, tg, tf) => {
@@ -280,33 +438,6 @@ const appTouch = (
 ) => {
     resize(hideApp, showApp);
 
-    appGetData('./db/goods.json').then(data => {
-        data.forEach(good => {
-            const {
-                id, name, nameMin, img, ingredients: ing, category, time, main
-            } = good;
-
-            const goodCode = `
-                <div class="good" data-name="${name}" data-ingredients="${ing}">
-                    <div class="good__content">
-                        <div class="good__wrap-img">
-                            <img src="${img}" alt="good-img-${id}" class="good__img">
-                            <span class="good__time">${time}</span>
-                        </div>
-                        <div class="good__wrap-text">
-                            <div class="good__name">${name}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            if (main !== '') {
-                console.log(':: In main');
-                goodsCreateInMainTouch.insertAdjacentHTML('beforeend', goodCode);
-            } else console.log(':: Not in main');
-        });
-    });
-
     const appTouch = cAppTouch(app, cElements, 'div', 'app-touch', 'beforeend');
     const appTouchMain = cAppTouchMain(appTouch, cElements, 'main', 'app-touch-main', 'beforeend', contentApp.main);
     const appTouchGood = cAppTouchGoods(appTouch, cElements, 'div', 'app-touch-good', 'beforeend');
@@ -315,24 +446,55 @@ const appTouch = (
     const goodsCreateInMainTouch = document.querySelector('.goods__scroll');
     const goodsSectionInMainTouch = document.querySelector('.app-touch-main__section_goods');
     
+    const formGood = document.querySelector('.form__good');
     const formClose = appTouchForm.children[0];
     const formWrapForm = appTouchForm.children[1];
-    const formSwipe = formWrapForm.children[0];
+    // const formSwipe = formWrapForm.children[0];
+    const formSwipe = formWrapForm;
+    const form = document.getElementById('form');
     const formNameS = document.querySelector('.form__name-submit');
     const fromIngredientsS = document.querySelector('.form__ingredients-submit');
     const fromIngredients = document.querySelector('.form__ingredients');
+    const formBtn = document.querySelector('.form__btn-submit');
     let formSwipeX = null;
     let formSwipeY = null;
 
     appLog(appTouch, appTouchMain, appTouchGood, appTouchForm);
 
+    appGetData('./db/goods.json', goodsCreateInMainTouch).then(data => {
+        data.forEach(good => {
+            const {
+                id, name, nameMin, img, ingredients: ing, category, time, main
+            } = good;
+
+            const goodCode = `
+                <div class="good" data-name="${name}" data-ingredients="${ing}" data-img="${img}" data-time="${time}">
+                    <div class="good__content">
+                        <div class="good__wrap-img">
+                            <img data-src="${img}" src="${contentApp.main.goods.loading}" alt="good-img-${id}" class="good__img">
+                            <span class="good__time">${time}</span>
+                        </div>
+                        <div class="good__wrap-text">
+                            <div class="good__name">${name}</div>
+                            <div class="good__choose">${contentApp.main.goods.choose}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if (main !== '') {
+                goodsCreateInMainTouch.insertAdjacentHTML('beforeend', goodCode);
+            }
+        });
+
+        console.log(':: In main', goodsCreateInMainTouch.children.length, 'elmenets');
+        lazyLoading(goodsCreateInMainTouch, 'img[data-src]', windowWidth, 'x');
+    });
+
     goodsSectionInMainTouch.addEventListener('click', function(event) {
         const target = event.target;
         const sesAll = target.closest('#see-all-goods');
-        if (sesAll) {
-            appTouchGood.classList.add('active');
-            setTimeout(() => goodsCreateContent(back), 500);
-        };
+        if (sesAll) goodsCreateContent(appTouchGood, back);
     }, false);
 
     appTouch.addEventListener('click', function(event) {
@@ -343,13 +505,24 @@ const appTouch = (
             const goodName = good.dataset.name;
             const goodCleanName = goodName.split(' <br> ').join(' ');
             const goodIngredients = good.dataset.ingredients;
+            const goodImg = good.dataset.img;
+            const goodTime = good.dataset.time;
+            const goodChoose = good.querySelector('.good__choose');
+            
+            goodChoose.classList.add('active');
+            setTimeout(() => {
+                goodChoose.classList.remove('active');
+            }, 1000);
 
-            openForm(appTouchForm, formWrapForm, formNameS, fromIngredientsS, fromIngredients, goodCleanName, goodIngredients, contentApp.form);
+            openForm(appTouchForm, formGood, formWrapForm, form, formNameS, fromIngredientsS, fromIngredients, formBtn, goodName, goodCleanName, goodIngredients, goodImg, goodTime, contentApp.form);
         };
     });
 
+
+
     formClose.addEventListener('click', function() {
-        closeForm(appTouchForm, formWrapForm, formNameS, fromIngredientsS, fromIngredients);
+        if (this.nextElementSibling.classList.contains('active')) closeForm(appTouchForm, formGood, formWrapForm, formNameS, fromIngredientsS, fromIngredients);
+        else return false;
     }, false);
     formSwipe.addEventListener('touchstart', function(event) {
         const formSwipe = event.touches[0];
@@ -368,15 +541,23 @@ const appTouch = (
         let formSwipeYDiff = formSwipeY2 - formSwipeY;
 
         if (Math.abs(formSwipeYDiff) > Math.abs(formSwipeXDiff)) {
-            if (formSwipeYDiff > 0) {
-                closeForm(appTouchForm, formWrapForm, formNameS, fromIngredientsS, fromIngredients);
-            };
+            if (formSwipeYDiff > 100) {
+                formWrapForm.classList.add('swipe');
+                setTimeout(() => {
+                    formWrapForm.classList.remove('swipe');
+                }, 100);
+
+                if (formSwipeYDiff > 300) {
+                    formWrapForm.classList.remove('swipe');
+                    closeForm(appTouchForm, formGood, formWrapForm, formNameS, fromIngredientsS, fromIngredients);
+                }
+            }
             return false; 
         }
     }, false);
 
     window.addEventListener('resize', function(windowWidth) {
-        windowWidth = window.innerWidth;
+        windowWidth = document.documentElement.clientWidth;
 
         if (windowWidth > breakpointWidth) hideApp();
         else showApp();

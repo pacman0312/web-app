@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;
 
-500;600;700&display=swap");
+400;600;700&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -34,15 +34,10 @@ footer {
 
 html,
 body {
-  height: 100%;
   width: 100%;
-  font-size: 100%;
+  height: 100%;
   line-height: 1;
   font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-size-adjust: 100%;
 }
 
 input,
@@ -130,8 +125,13 @@ body {
   overflow: hidden;
 }
 
+.app {
+  overflow: hidden;
+  min-height: 100%;
+}
+
 .app * {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-weight: 600;
   font-style: normal;
 }
@@ -150,116 +150,93 @@ body {
 }
 
 .app-touch {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
-  background-color: #000;
-  overflow: hidden;
 }
 
 .app-touch-title {
   font-size: 1.3rem;
+  font-weight: 700;
+  height: 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.app-touch-title span {
+  font-size: 1rem;
+  color: #ccc;
+  margin-left: 1rem;
 }
 
 .app-touch-back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
   width: 100%;
+  height: 4rem;
   background-color: #fff;
 }
 
 .app-touch-back__wrap {
   width: 100%;
+  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  padding: 1rem;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.app-touch-back__icon {
+  margin-right: 1rem;
+  margin-bottom: .1rem;
+}
+
+.app-touch-back__title {
+  font-size: 1.1rem;
+  color: #000;
 }
 
 .app-touch-main {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100%;
   flex: 0 0 100%;
-  overflow: hidden;
-  background-color: #fff;
-  position: absolute;
   width: 100%;
+  position: absolute;
   height: 100%;
   overflow: hidden;
+  background-color: #fff;
 }
 
 .app-touch-main__scroll {
-  position: relative;
-  width: 120%;
+  width: 107%;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 20%;
-}
-
-.app-touch-main__section_screen {
-  width: 100%;
-  height: 46vh;
-  padding: 0 1rem;
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: end;
-  -ms-flex-pack: end;
-  justify-content: flex-end;
-  z-index: 1;
-  display: none;
+  padding-right: 07%;
 }
 
 .app-touch-main__section_goods {
   width: 100%;
-  padding: 2rem 1rem 1rem 1rem;
-}
-
-.app-touch-main__parallax {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 70%;
-  width: 100%;
-  background-image: url("https://images.unsplash.com/photo-1504114133367-631ecd3db3ca?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1944&q=80");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  z-index: 2;
-}
-
-.app-touch-main__look {
-  width: 100%;
-  height: 10rem;
-  background-color: #FAF5F1;
-  border-radius: 1rem;
-  -webkit-box-shadow: 0 .05rem .1rem #ccc;
-  box-shadow: 0 .05rem .1rem #ccc;
-  z-index: 3;
-  overflow: hidden;
-  padding: 2rem;
-  font-family: 'Yeseva One', cursive;
+  padding: 1rem;
+  padding-top: 0;
 }
 
 .app-touch-main .goods__see-all {
@@ -269,20 +246,50 @@ body {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;
-  padding-top: 1rem;
 }
 
-.app-touch-main .goods__see-all span {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #999;
+.app-touch-main .goods__see-all #see-all-goods {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #403777;
+  padding: 1rem 0;
 }
 
 .app-touch-main .goods__wrap-scroll {
+  max-height: 28.75rem;
+  overflow: hidden;
   margin: 0 -1rem;
-  height: 32rem;
-  padding-top: 1rem;
+  position: relative;
+}
+
+.app-touch-main .goods__wrap-scroll:after {
+  content: 'loading';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 99;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all .3s ease 0s;
+  -o-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+}
+
+.app-touch-main .goods__wrap-scroll.expectation:after {
+  opacity: 1;
+  visibility: visible;
 }
 
 .app-touch-main .goods__scroll {
@@ -293,8 +300,9 @@ body {
   flex-wrap: nowrap;
   overflow-y: hidden;
   overflow-x: auto;
-  height: 40rem;
-  padding: 0 1rem;
+  height: 30rem;
+  padding: 1rem;
+  padding-top: 0;
 }
 
 .app-touch-main .goods__scroll .good {
@@ -302,7 +310,7 @@ body {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 15.7rem;
   flex: 0 0 15.7rem;
-  min-height: 10px;
+  max-height: 27.6rem;
   margin-right: .5rem;
   position: relative;
   z-index: 10;
@@ -326,6 +334,17 @@ body {
   overflow: hidden;
 }
 
+.app-touch-main .goods__scroll .good__wrap-img::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 3;
+}
+
 .app-touch-main .goods__scroll .good__img {
   position: absolute;
   top: 0;
@@ -335,49 +354,96 @@ body {
   -o-object-fit: cover;
   object-fit: cover;
   z-index: 2;
+  opacity: 0;
+  -webkit-transition: all .3s ease .1s;
+  -o-transition: all .3s ease .1s;
+  transition: all .3s ease .1s;
+}
+
+.app-touch-main .goods__scroll .good__img.active {
+  opacity: 1;
 }
 
 .app-touch-main .goods__scroll .good__time {
   position: absolute;
   right: 1rem;
   bottom: 1rem;
-  z-index: 3;
+  z-index: 4;
   color: #fff;
 }
 
 .app-touch-main .goods__scroll .good__wrap-text {
   width: 100%;
+  height: 5.9rem;
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
 }
 
 .app-touch-main .goods__scroll .good__name {
-  font-size: .9rem;
-  margin-top: 1rem;
-  font-weight: 500;
+  padding: 1rem 0;
+  padding-left: .1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.app-touch-main .goods__scroll .good__choose {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: .05rem solid #ccc;
+  border-radius: 1rem;
+  padding: .5rem;
+  font-size: .8rem;
+  font-weight: 400;
+  color: #999;
+  background-color: #fff;
+  -webkit-transition: all .2s ease 0s;
+  -o-transition: all .2s ease 0s;
+  transition: all .2s ease 0s;
+}
+
+.app-touch-main .goods__scroll .good__choose.active {
+  background-color: #403777;
+  border-color: transparent;
+  color: #fff;
+}
+
+@-webkit-keyframes loading {
+  0% {
+
+  }
+
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes loading {
+  0% {
+
+  }
+
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .app-touch-good {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100%;
   flex: 0 0 100%;
-  overflow: hidden;
-  background-color: #fff;
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
+  position: absolute;
   height: 100%;
   overflow: hidden;
+  background-color: #fff;
   opacity: 0;
   visibility: hidden;
   -webkit-transition: all .3s ease 0s;
@@ -391,21 +457,23 @@ body {
 }
 
 .app-touch-good__scroll {
-  position: relative;
-  width: 120%;
+  width: 107%;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-right: 20%;
+  padding-right: 07%;
 }
 
 .app-touch-good__categories {
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  z-index: 10;
   width: 100%;
-  -webkit-box-shadow: 0 .1rem .1rem #f2f2f2;
-  box-shadow: 0 .1rem .1rem #f2f2f2;
-  height: 3rem;
+  height: 3.5rem;
   overflow: hidden;
   background-color: #fff;
+  border-bottom: .1rem solid #f2f2f2;
 }
 
 .app-touch-good__categories-scroll {
@@ -423,25 +491,82 @@ body {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  height: 3rem;
+  height: 3.4rem;
   padding: 0 1rem;
-  border-bottom: .1rem solid transparent;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  position: relative;
 }
 
-.app-touch-good__categories-el.active {
-  border-color: #000;
+.app-touch-good__categories-el span {
+  color: #000;
+  font-weight: 400;
+  font-size: 1rem;
+  -webkit-transition: all .5s ease 0s;
+  -o-transition: all .5s ease 0s;
+  transition: all .5s ease 0s;
+}
+
+.app-touch-good__categories-el::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0%;
+  height: .1rem;
+  background-color: #402eb6;
+  -webkit-transition: all .4s ease 0s;
+  -o-transition: all .4s ease 0s;
+  transition: all .4s ease 0s;
+}
+
+.app-touch-good__categories-el.active span {
+  color: #402eb6;
+}
+
+.app-touch-good__categories-el.active::after {
+  left: 0;
+  width: 100%;
 }
 
 .app-touch-good__goods {
   width: 100%;
-  padding: 1rem;
-  padding-top: 7rem;
+  padding: 9rem 1rem 2rem 1rem;
+  position: relative;
+}
+
+.app-touch-good__goods:after {
+  content: 'loading';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 99;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all .3s ease 0s;
+  -o-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+}
+
+.app-touch-good__goods.expectation:after {
+  opacity: 1;
+  visibility: visible;
 }
 
 .app-touch-good__goods-wrap {
@@ -456,15 +581,51 @@ body {
 .app-touch-good .good {
   width: 100%;
   border-radius: 1rem;
-  overflow: hidden;
-  -webkit-box-shadow: 0 0.05rem 0.1rem #ccc;
-  box-shadow: 0 0.05rem 0.1rem #ccc;
   height: auto;
+  overflow: hidden;
+}
+
+.app-touch-good .good.hide {
+  display: none;
+}
+
+.app-touch-good .good.show {
+  -webkit-animation-name: show;
+  animation-name: show;
+  -webkit-animation-duration: .5s;
+  animation-duration: .5s;
+  -webkit-animation-iteration-count: 1;
+  animation-iteration-count: 1;
+  -webkit-animation-direction: normal;
+  animation-direction: normal;
+  -webkit-animation-timing-function: ease;
+  animation-timing-function: ease;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+
+.app-touch-good .good__content {
+  overflow: hidden;
 }
 
 .app-touch-good .good__wrap-img {
   position: relative;
   padding-bottom: 125%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.app-touch-good .good__wrap-img::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 3;
 }
 
 .app-touch-good .good__img {
@@ -475,42 +636,100 @@ body {
   height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
+  z-index: 2;
+  opacity: 0;
+  -webkit-transition: all .3s ease .1s;
+  -o-transition: all .3s ease .1s;
+  transition: all .3s ease .1s;
+}
+
+.app-touch-good .good__img.active {
+  opacity: 1;
+}
+
+.app-touch-good .good__time {
+  position: absolute;
+  right: .5rem;
+  bottom: .5rem;
+  z-index: 4;
+  color: #fff;
 }
 
 .app-touch-good .good__wrap-text {
-  padding: 1rem .5rem;
+  padding: 1rem .1rem;
 }
 
 .app-touch-good .good__name {
-  font-size: .9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
-.app-touch-good .app-touch-back {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 10;
+.app-touch-good .good__choose {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  border: .05rem solid #ccc;
+  border-radius: 1rem;
+  padding: .5rem;
+  font-size: .8rem;
+  font-weight: 400;
+  color: #999;
+  background-color: #fff;
+  -webkit-transition: all .2s ease 0s;
+  -o-transition: all .2s ease 0s;
+  transition: all .2s ease 0s;
 }
 
-.app-touch-good__categories {
-  position: fixed;
-  top: 3rem;
-  left: 0;
-  width: 100%;
-  z-index: 10;
+.app-touch-good .good__choose.active {
+  background-color: #403777;
+  border-color: transparent;
+  color: #fff;
+}
+
+@-webkit-keyframes show {
+  0% {
+    display: block;
+    -webkit-transform: scale(0.4);
+    transform: scale(0.4);
+  }
+
+  100% {
+    display: block;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes show {
+  0% {
+    display: block;
+    -webkit-transform: scale(0.4);
+    transform: scale(0.4);
+  }
+
+  100% {
+    display: block;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
 }
 
 .app-touch-form {
   -webkit-box-flex: 0;
   -ms-flex: 0 0 100%;
   flex: 0 0 100%;
-  overflow: hidden;
-  background-color: transparent;
-  position: absolute;
   width: 100%;
+  position: absolute;
   height: 100%;
   overflow: hidden;
+  background-color: transparent;
   opacity: 0;
   visibility: hidden;
   -webkit-transition: all .3s ease 0s;
@@ -562,9 +781,15 @@ body {
 }
 
 .app-touch-form__wrap-form.active {
-  -webkit-transform: none;
-  -ms-transform: none;
-  transform: none;
+  -webkit-transform: translateY(0%);
+  -ms-transform: translateY(0%);
+  transform: translateY(0%);
+}
+
+.app-touch-form__wrap-form.swipe {
+  -webkit-transform: translateY(20%);
+  -ms-transform: translateY(20%);
+  transform: translateY(20%);
 }
 
 .app-touch-form .form {
@@ -575,8 +800,8 @@ body {
   display: grid;
   -ms-grid-columns: 1fr;
   grid-template-columns: 1fr;
-  -ms-grid-rows: 3rem 1fr 3rem;
-  grid-template-rows: 3rem 1fr 3rem;
+  -ms-grid-rows: 6rem auto 1fr 3rem;
+  grid-template-rows: 6rem auto 1fr 3rem;
 }
 
 .app-touch-form .form__name-submit,
@@ -588,24 +813,48 @@ body {
   height: 0;
 }
 
+.app-touch-form .form__good {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 6rem 1fr;
+  grid-template-columns: 6rem 1fr;
+  grid-gap: 1rem;
+}
+
+.app-touch-form .form__good-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.app-touch-form .form__good-img img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.app-touch-form .form__good-time {
+  margin-top: .5rem;
+  font-size: 0.9rem;
+  color: #999;
+}
+
 .app-touch-form .form__title {
   width: 100%;
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
   position: relative;
   background-color: #fff;
+  padding: 2rem 0 1rem .1rem;
 }
 
 .app-touch-form .form__title h2 {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .app-touch-form .form__ingredients {
@@ -626,7 +875,7 @@ body {
 
 .app-touch-form .form__ingredient-el.active .form__ingredient-chec {
   border: .4rem solid #fff;
-  background-color: #000;
+  background-color: #403777;
 }
 
 .app-touch-form .form__ingredient-el.nothing {
@@ -636,13 +885,17 @@ body {
 .app-touch-form .form__ingredient-chec {
   width: 1.4rem;
   height: 1.4rem;
-  border: .05rem solid #ccc;
+  border: 0.05rem solid #e2e2e2;
   background-color: #fff;
   border-radius: 50%;
   margin-right: .5rem;
   -webkit-transition: all .2s ease 0s;
   -o-transition: all .2s ease 0s;
   transition: all .2s ease 0s;
+}
+
+.app-touch-form .form__ingredient-name {
+  font-weight: 400;
 }
 
 .app-touch-form .form__btn {
