@@ -205,7 +205,7 @@ const createAppTouchForm = (app, createEl, el, elClass, elPosition, content) => 
     return element;
 };
 
-const openForm = (appTF, fGood, fWrapForm, f, fNameS, fIngredientsS, fIngredients, fBtn, name, nameClean, ingredients, img, time, content) => {
+const openForm = (appTF, fGood, fWrapForm, fNameS, fIngredientsS, fIngredients, name, nameClean, ingredients, img, time, content) => {
     fNameS.setAttribute('value', nameClean);
 
     fGood.insertAdjacentHTML('beforeend', `
@@ -284,30 +284,6 @@ const openForm = (appTF, fGood, fWrapForm, f, fNameS, fIngredientsS, fIngredient
             fIngredientsS.setAttribute('value', ingArr.join(', '));
         });
     };
-
-    f.addEventListener('submit', function(event) {
-        event.preventDefault();
-        alert('Этот функционал находится в разработке');
-    });
-
-    // f.addEventListener('submit', async function(event) {
-    //     event.preventDefault();
-        
-    //     let formData = new FormData(f);
-    //     console.log(formData);
-    //     let response = await fetch('./php/telegram.php', {
-    //         method: 'POST',
-    //         body: formData
-    //     });
-
-    //     if (response.ok) {
-    //         let result = await response.json();
-    //         alert(result.message);
-    //         form.reset();
-    //     } else {
-    //         console.log('Error');
-    //     }
-    // });
 };
 const closeForm = (appTF, fGood, fWrapForm, fNameS, fIngredientsS, fIngredients) => {
     fWrapForm.classList.remove('active');
@@ -519,7 +495,7 @@ const appTouch = (
                 goodChoose.classList.remove('active');
             }, 1000);
 
-            openForm(appTouchForm, formGood, formWrapForm, form, formNameS, fromIngredientsS, fromIngredients, formBtn, goodName, goodCleanName, goodIngredients, goodImg, goodTime, contentApp.form);
+            openForm(appTouchForm, formGood, formWrapForm, formNameS, fromIngredientsS, fromIngredients, goodName, goodCleanName, goodIngredients, goodImg, goodTime, contentApp.form);
         };
     });
 
@@ -560,6 +536,11 @@ const appTouch = (
             return false; 
         }
     }, false);
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        alert('Этот функционал находится в разработке');
+    });
 
     window.addEventListener('resize', function(windowWidth) {
         windowWidth = document.documentElement.clientWidth;
