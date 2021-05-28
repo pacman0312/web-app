@@ -285,7 +285,8 @@ const openForm = (appTF, fGood, fWrapForm, f, fNameS, fIngredientsS, fIngredient
         });
     };
 
-    fBtn.addEventListener('click', function() {
+    f.addEventListener('submit', function(event) {
+        event.preventDefault();
         alert('Этот функционал находится в разработке');
     });
 
