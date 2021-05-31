@@ -202,16 +202,20 @@ body {
   -ms-flex-align: center;
   align-items: center;
   padding: 0 1rem;
+  position: relative;
 }
 
 .app-touch-back__icon {
-  margin-right: 1rem;
-  margin-bottom: .1rem;
+  padding: 1rem;
+  padding-right: 2rem;
+  position: absolute;
+  left: 0;
 }
 
 .app-touch-back__title {
   font-size: 1.1rem;
   color: #000;
+  margin-left: 1.5rem;
 }
 
 .app-touch-main {
@@ -262,16 +266,13 @@ body {
   position: relative;
 }
 
-.app-touch-main .goods__wrap-scroll:after {
-  content: 'loading';
+.app-touch-main .goods__wrap-scroll .expectation {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: #fff;
-  opacity: 0;
-  visibility: hidden;
   z-index: 99;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -287,9 +288,19 @@ body {
   transition: all .3s ease 0s;
 }
 
-.app-touch-main .goods__wrap-scroll.expectation:after {
-  opacity: 1;
-  visibility: visible;
+.app-touch-main .goods__wrap-scroll .expectation span {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: .13rem solid #403777;
+  border-radius: 50%;
+  border-left-color: transparent;
+  -webkit-animation: expectationLoading .5s linear 0s infinite;
+  animation: expectationLoading .5s linear 0s infinite;
+}
+
+.app-touch-main .goods__wrap-scroll .expectation.active {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .app-touch-main .goods__scroll {
@@ -324,25 +335,23 @@ body {
   width: 100%;
 }
 
-.app-touch-main .goods__scroll .good__wrap-img {
+.app-touch-main .goods__scroll .good__wrap {
   width: 100%;
   height: 21.7rem;
-  overflow: hidden;
   position: relative;
+  overflow: hidden;
   z-index: 1;
   border-radius: 1rem;
-  overflow: hidden;
 }
 
-.app-touch-main .goods__scroll .good__wrap-img::after {
-  content: '';
+.app-touch-main .goods__scroll .good__wrap-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
-  z-index: 3;
+  overflow: hidden;
+  z-index: 2;
 }
 
 .app-touch-main .goods__scroll .good__img {
@@ -353,11 +362,10 @@ body {
   height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
-  z-index: 2;
   opacity: 0;
-  -webkit-transition: all .3s ease .1s;
-  -o-transition: all .3s ease .1s;
-  transition: all .3s ease .1s;
+  -webkit-transition: all .3s ease 0s;
+  -o-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
 }
 
 .app-touch-main .goods__scroll .good__img.active {
@@ -370,6 +378,16 @@ body {
   bottom: 1rem;
   z-index: 4;
   color: #fff;
+}
+
+.app-touch-main .goods__scroll .good__pepper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .app-touch-main .goods__scroll .good__wrap-text {
@@ -413,25 +431,25 @@ body {
   color: #fff;
 }
 
-@-webkit-keyframes loading {
+@-webkit-keyframes expectationLoading {
   0% {
 
   }
 
   100% {
-    -webkit-transform: translate(-50%, -50%) rotate(360deg);
-    transform: translate(-50%, -50%) rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
-@keyframes loading {
+@keyframes expectationLoading {
   0% {
 
   }
 
   100% {
-    -webkit-transform: translate(-50%, -50%) rotate(360deg);
-    transform: translate(-50%, -50%) rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -539,16 +557,13 @@ body {
   position: relative;
 }
 
-.app-touch-good__goods:after {
-  content: 'loading';
+.app-touch-good__goods .expectation {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: #fff;
-  opacity: 0;
-  visibility: hidden;
   z-index: 99;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -564,9 +579,19 @@ body {
   transition: all .3s ease 0s;
 }
 
-.app-touch-good__goods.expectation:after {
-  opacity: 1;
-  visibility: visible;
+.app-touch-good__goods .expectation span {
+  width: 1.6rem;
+  height: 1.6rem;
+  border: .13rem solid #403777;
+  border-radius: 50%;
+  border-left-color: transparent;
+  -webkit-animation: expectationLoading .5s linear 0s infinite;
+  animation: expectationLoading .5s linear 0s infinite;
+}
+
+.app-touch-good__goods .expectation.active {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .app-touch-good__goods-wrap {
@@ -610,22 +635,23 @@ body {
   overflow: hidden;
 }
 
-.app-touch-good .good__wrap-img {
-  position: relative;
+.app-touch-good .good__wrap {
+  width: 100%;
   padding-bottom: 125%;
-  border-radius: 1rem;
+  position: relative;
   overflow: hidden;
+  z-index: 1;
+  border-radius: 1rem;
 }
 
-.app-touch-good .good__wrap-img::after {
-  content: '';
+.app-touch-good .good__wrap-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
-  z-index: 3;
+  overflow: hidden;
+  z-index: 2;
 }
 
 .app-touch-good .good__img {
@@ -636,11 +662,10 @@ body {
   height: 100%;
   -o-object-fit: cover;
   object-fit: cover;
-  z-index: 2;
   opacity: 0;
-  -webkit-transition: all .3s ease .1s;
-  -o-transition: all .3s ease .1s;
-  transition: all .3s ease .1s;
+  -webkit-transition: all .3s ease 0s;
+  -o-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
 }
 
 .app-touch-good .good__img.active {
@@ -649,10 +674,20 @@ body {
 
 .app-touch-good .good__time {
   position: absolute;
-  right: .5rem;
-  bottom: .5rem;
+  right: 1rem;
+  bottom: 1rem;
   z-index: 4;
   color: #fff;
+}
+
+.app-touch-good .good__pepper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .app-touch-good .good__wrap-text {
@@ -718,6 +753,17 @@ body {
     display: block;
     -webkit-transform: scale(1);
     transform: scale(1);
+  }
+}
+
+@keyframes expectationLoading {
+  0% {
+
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 

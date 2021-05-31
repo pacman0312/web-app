@@ -13,15 +13,19 @@
         display: flex;
         align-items: center;
         padding: 0 1rem;
+        position: relative;
     }
 
     &__icon {
-        margin-right: 1rem;
-        margin-bottom: .1rem;
+        padding: 1rem;
+        padding-right: 2rem;
+        position: absolute;
+        left: 0;
     }
 
     &__title {
         font-size: 1.1rem;
         color: #000;
+        margin-left: 1.5rem;
     }
 }

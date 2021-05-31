@@ -86,28 +86,34 @@
         padding: 9rem 1rem 2rem 1rem;
         position: relative;
 
-        &:after {
-            content: 'loading';
+        & .expectation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: #fff;
-            opacity: 0;
-            visibility: hidden;
             z-index: 99;
 
             display: flex;
             justify-content: center;
             align-items: center;
 
-            transition: all .3s ease 0s;
-        }
+            & span {
+                width: 1.6rem;
+                height: 1.6rem;
+                border: .13rem solid #403777;
+                border-radius: 50%;
+                border-left-color: transparent;
+                animation: expectationLoading .5s linear 0s infinite;
+            }
 
-        &.expectation:after {
-            opacity: 1;
-            visibility: visible;
+            transition: all .3s ease 0s;
+
+            &.active {
+                opacity: 0;
+                visibility: hidden;
+            }
         }
 
         &-wrap {
@@ -142,22 +148,23 @@
             overflow: hidden;
         }
 
-        &__wrap-img {
-            position: relative;
+        &__wrap {
+            width: 100%;
             padding-bottom: 125%;
-            border-radius: 1rem;
+            position: relative;
             overflow: hidden;
+            z-index: 1;
+            border-radius: 1rem;
+        }
 
-            &::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, .1);
-                z-index: 3;
-            }
+        &__wrap-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 2;
         }
 
         &__img {
@@ -167,9 +174,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            z-index: 2;
             opacity: 0;
-            transition: all .3s ease .1s;
+            transition: all .3s ease 0s;
 
             &.active {
                 opacity: 1;
@@ -178,10 +184,20 @@
 
         &__time {
             position: absolute;
-            right: .5rem;
-            bottom: .5rem;
+            right: 1rem;
+            bottom: 1rem;
             z-index: 4;
             color: #fff;
+        }
+
+        &__pepper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            background-color: rgba(0, 0, 0, .1);
         }
 
         &__wrap-text {
@@ -225,5 +241,13 @@
     100% {
         display: block;
         transform: scale(1);
+    }
+}
+
+@keyframes expectationLoading {
+    0% {}
+
+    100% {
+        transform: rotate(360deg);
     }
 }

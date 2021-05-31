@@ -44,28 +44,35 @@
             margin: 0 -1rem;
             position: relative;
 
-            &:after {
-                content: 'loading';
+            & .expectation {
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
                 background-color: #fff;
-                opacity: 0;
-                visibility: hidden;
                 z-index: 99;
 
                 display: flex;
                 justify-content: center;
                 align-items: center;
 
-                transition: all .3s ease 0s;
-            }
+                & span {
+                    width: 1.6rem;
+                    height: 1.6rem;
+                    border: .13rem solid #403777;
+                    border-radius: 50%;
+                    border-left-color: transparent;
+                    animation: expectationLoading .5s linear 0s infinite;
+                }
 
-            &.expectation:after {
-                opacity: 1;
-                visibility: visible;
+                transition: all .3s ease 0s;
+
+                &.active {
+                    opacity: 0;
+                    visibility: hidden;
+                    // animation: expectationHide .1s ease 0s forwards;
+                }
             }
         }
 
@@ -98,26 +105,23 @@
                     width: 100%;
                 }
 
-                &__wrap-img {
+                &__wrap {
                     width: 100%;
                     height: 21.7rem;
-                    overflow: hidden;
                     position: relative;
+                    overflow: hidden;
                     z-index: 1;
                     border-radius: 1rem;
-                    overflow: hidden;
-                    // border: 1px solid blue;
+                }
 
-                    &::after {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: rgba(0, 0, 0, .1);
-                        z-index: 3;
-                    }
+                &__wrap-img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    z-index: 2;
                 }
 
                 &__img {
@@ -127,9 +131,8 @@
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                    z-index: 2;
                     opacity: 0;
-                    transition: all .3s ease .1s;
+                    transition: all .3s ease 0s;
 
                     &.active {
                         opacity: 1;
@@ -142,6 +145,16 @@
                     bottom: 1rem;
                     z-index: 4;
                     color: #fff;
+                }
+
+                &__pepper {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 3;
+                    background-color: rgba(0, 0, 0, .1);
                 }
 
                 &__wrap-text {
@@ -182,10 +195,19 @@
     }
 }
 
-@keyframes loading {
+@keyframes expectationLoading {
     0% {}
 
     100% {
-        transform: translate(-50%, -50%) rotate(360deg);
+        transform: rotate(360deg);
     }
 }
+
+// @keyframes expectationHide {
+//     0% {}
+
+//     100% {
+//         opacity: 0;
+//         visibility: hidden;
+//     }
+// }
