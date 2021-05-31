@@ -436,7 +436,7 @@ const appTouch = (
     const formNameS = document.querySelector('.form__name-submit');
     const fromIngredientsS = document.querySelector('.form__ingredients-submit');
     const fromIngredients = document.querySelector('.form__ingredients');
-    const formBtn = document.querySelector('.form__btn-submit');
+    // const formBtn = document.querySelector('.form__btn-submit');
     let formSwipeX = null;
     let formSwipeY = null;
 
@@ -499,8 +499,6 @@ const appTouch = (
         };
     });
 
-
-
     formClose.addEventListener('click', function() {
         if (this.nextElementSibling.classList.contains('active')) closeForm(appTouchForm, formGood, formWrapForm, formNameS, fromIngredientsS, fromIngredients);
         else return false;
@@ -536,7 +534,6 @@ const appTouch = (
             return false; 
         }
     }, false);
-
     form.addEventListener('submit', function(event) {
         event.preventDefault();
         alert('Этот функционал находится в разработке');
