@@ -179,12 +179,6 @@
     & .goods {
         background-color: inherit;
 
-        &__see-all {
-            & #see-all-goods {
-                color: #403777;
-            }
-        }
-
         &__wrap-scroll {
             background-color: inherit;
 
@@ -241,4 +235,10 @@
 
 .app-touch-title {
     color: #fff;
+}
+
+.see-el {
+    & span {
+        color: #403777;
+    }
 }

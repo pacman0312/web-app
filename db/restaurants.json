@@ -1,0 +1,16 @@
+[
+    {
+        "id": "river",
+        "name": "River",
+        "img": "images/restaurants/river.jpg",
+        "menu": "images/restaurants/river.jpg, images/restaurants/river.jpg, images/restaurants/river.jpg",
+        "address": "Ярославская улица, 29"
+    },
+    {
+        "id": "kveli",
+        "name": "Kveli",
+        "img": "images/restaurants/kveli.jpg",
+        "menu": "images/restaurants/kveli.jpg, images/restaurants/kveli.jpg, images/restaurants/kveli.jpg",
+        "address": "улица Михаила Сеспеля, 11, Чебоксары"
+    }
+]

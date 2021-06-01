@@ -13,8 +13,12 @@ const appSettings = {
 
 const appContent = {
     main: {
+        welcome: {
+            title: 'Welcome <br> to food',
+            descr: 'Наслаждайся едой'
+        },
         goods: {
-            title: 'Выбирай и готовь',
+            title: 'Choose and cook',
             seeAll: {
                 text: 'смотреть все',
                 icon: 'не добавил'
@@ -22,10 +26,17 @@ const appContent = {
             loadingImg: 'images/loading.png',
             choose: 'Выбрать'
         },
+        restaurants: {
+            title: 'Restaurants',
+            seeMenu: {
+                text: 'меню',
+                icon: 'не добавил'
+            }
+        }
     },
     back: {
         icon: 'images/icons/back.svg',
-        goods: 'Мини рецепты'
+        goods: 'Рецепты'
     },
     form: {
         timeText: 'время готвки:',
@@ -94,7 +105,7 @@ const lazyLoading = (elScroll, elImg, windowSize, page) => {
 };
 
 const appBack = (element, title) => {
-    element.insertAdjacentHTML('beforeend', `
+    element.insertAdjacentHTML(appSettings.positionElements.beforeend, `
         <div class="app-touch-back">
             <div class="app-touch-back__wrap">
                 <div class="app-touch-back__icon">
@@ -167,18 +178,37 @@ const createGoodsInMain = (good, createGoodsInMainTouch) => {
     `;
 
     if (main !== '') {
-        createGoodsInMainTouch.insertAdjacentHTML('beforeend', goodCode);
+        createGoodsInMainTouch.insertAdjacentHTML(appSettings.positionElements.beforeend, goodCode);
     }
+};
+const createRestaurantssInMain = (restaurant, createRestaurantInMain) => {
+    const {
+        id, name, img, menu, address
+    } = restaurant;
+
+    const restaurantCode = `
+        <div class="restaurants__slider-item" id="${id}" data-menu="${menu}">
+            <div class="restaurants__slider-item-content">
+                <div class="restaurants__slider-item-wrap-img">
+                    <img src="${img}" alt="" class="restaurants__slider-item-img">
+                </div>
+                <div class="restaurants__slider-item-wrap-text">
+                    <div class="restaurants__slider-item-name">${name}</div>
+                    <div class="restaurants__slider-item-address">${address}</div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    createRestaurantInMain.insertAdjacentHTML(appSettings.positionElements.beforeend, restaurantCode);
 };
 
 const goodsCreateContent = (appTouchGoods, back) => {
-    // appTouchGoods.classList.add('active');
-
     const goodsScroll = document.querySelector('.app-touch-good__scroll');
 
     back(goodsScroll, appContent.back.goods);
 
-    goodsScroll.insertAdjacentHTML('beforeend', `
+    goodsScroll.insertAdjacentHTML(appSettings.positionElements.beforeend, `
         <section class="app-touch-good__categories">
             <div class="app-touch-good__categories-scroll"></div>
         </section>
@@ -194,11 +224,11 @@ const goodsCreateContent = (appTouchGoods, back) => {
         data.forEach((category, ind) => {
             ind++;
             if (ind === 1) {
-                goodsCategories.insertAdjacentHTML('beforeend', `<div class="app-touch-good__categories-el active" data-filter="${category.name}">
+                goodsCategories.insertAdjacentHTML(appSettings.positionElements.beforeend, `<div class="app-touch-good__categories-el active" data-filter="${category.name}">
                     <span>${category.name}</span>
                 </div>`);   
             } else {
-                goodsCategories.insertAdjacentHTML('beforeend', `<div class="app-touch-good__categories-el" data-filter="${category.name}">
+                goodsCategories.insertAdjacentHTML(appSettings.positionElements.beforeend, `<div class="app-touch-good__categories-el" data-filter="${category.name}">
                     <span>${category.name}</span>
                 </div>`);
             }
@@ -211,7 +241,7 @@ const goodsCreateContent = (appTouchGoods, back) => {
                 id, name, nameMin, img, ingredients: ing, category, time, main
             } = good;
 
-            goodsGoods.insertAdjacentHTML('beforeend', `
+            goodsGoods.insertAdjacentHTML(appSettings.positionElements.beforeend, `
                 <div class="good" data-filter="${category}" data-name="${name}" data-ingredients="${ing}" data-img="${img}" data-time="${time}">
                     <div class="good__content">
                         <div class="good__wrap">
@@ -286,14 +316,14 @@ const openForm = (form, name, cleanName, ingredients, img, time) => {
     `);
 
     for (const ingredient of ingredientsArr) {
-        form.fromIngredients.insertAdjacentHTML('beforeend', `
+        form.fromIngredients.insertAdjacentHTML(appSettings.positionElements.beforeend, `
             <div class="form__ingredient-el">
                 <span class="form__ingredient-chec"></span>
                 <span class="form__ingredient-name">${ingredient}</span>
             </div>
         `);
     };
-    form.fromIngredients.insertAdjacentHTML('beforeend', `
+    form.fromIngredients.insertAdjacentHTML(appSettings.positionElements.beforeend, `
         <div class="form__ingredient-el nothing">
             <span class="form__ingredient-chec"></span>
             <span class="form__ingredient-name">${appContent.form.nothing}</span>
@@ -395,6 +425,12 @@ const initialization = (appTouch, sectionGoods, goodsCreateContent, appTouchGood
             setTimeout(() => goodsCreateContent(appTouchGoods, back), 100);
         } else return;
     });
+    
+    // нужно написать свой свайп. этот работает не так, как мне нужно
+    appTouchGoods.addEventListener('swiped-left', function(event) {
+        this.classList.remove('active');
+        this.children[0].textContent = '';
+    });
 
     form.formClose.addEventListener('click', function() {
         if (this.nextElementSibling.classList.contains('active')) closeForm(form);
@@ -409,6 +445,7 @@ const appTouch = (
     back,
     createElements,
     createGoodsInMain,
+    createRestaurantssInMain,
     goodsCreateContent,
     init,
     openForm,
@@ -423,14 +460,44 @@ const appTouch = (
     
     appTouchMain.insertAdjacentHTML(appSettings.positionElements.beforeend, `
         <div class="app-touch-main__scroll">
+            <section class="app-touch-main__section app-touch-main__section_welcome">
+                <div class="app-touch-main__welcome">
+                    <div class="app-touch-main__welcome-slider welcome-slider">
+                        <div class="welcome-slider__item">
+                            <div class="welcome-slider__wrap-img">
+                                <img src="./images/main/welcome/4.png" alt="welcome4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-touch-main__welcome-content">
+                        <h1 class="app-touch-title app-touch-title_welcome">${appContent.main.welcome.title}</h1>
+                        <div class="app-touch-descr app-touch-descr_welcome">${appContent.main.welcome.descr}</div>
+                    </div>
+                </div>
+            </section>
             <section class="app-touch-main__section app-touch-main__section_goods">
-                <h1 class="app-touch-title app-touch-title_goods">${appContent.main.goods.title}</h1>
+                <h2 class="app-touch-title app-touch-title_goods">${appContent.main.goods.title}</h2>
                 <div class="app-touch-main__goods goods">
-                    <div class="goods__see-all">
+                    <div class="see-el">
                         <span id="see-all-goods">${appContent.main.goods.seeAll.text}</span>
                     </div>
                     <div class="goods__wrap-scroll">
                         <div id="create-goods-in-main" class="goods__scroll after"></div>
+                    </div>
+                </div>
+            </section>
+            <section class="app-touch-main__section app-touch-main__section_restaurants">
+                <h2 class="app-touch-title app-touch-title_goods">${appContent.main.restaurants.title}</h2>
+                <div class="app-touch-main__restaurants restaurants">
+                    <div class="see-el">
+                        <span id="see-menu">${appContent.main.restaurants.seeMenu.text}</span>
+                    </div>
+                    <div class="restaurants__slider">
+                        <div id="create-restaurant-in-main" class="restaurants__slider-track"></div>
+                        <div class="restaurants__slider-btns">
+                            <button id="prev">prev</button>
+                            <button id="next">next</button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -461,6 +528,8 @@ const appTouch = (
     const createGoodsInMainTouch = document.getElementById('create-goods-in-main');
     const sectionGoodsInMainTouch = document.querySelector('.app-touch-main__section_goods');
 
+    const createRestaurantInMain = document.getElementById('create-restaurant-in-main');
+
     const form = {
         appTouchForm: appTouchForm,
         formGood: document.querySelector('.form__good'),
@@ -474,8 +543,13 @@ const appTouch = (
 
     appGetData('./db/goods.json', createGoodsInMainTouch).then(data => {
         data.forEach(good => createGoodsInMain(good, createGoodsInMainTouch));
+
         console.log(':: In main', createGoodsInMainTouch.children.length, 'elmenets');
         lazyLoading(createGoodsInMainTouch, 'img[data-src]', appSettings.width, 'x');
+    });
+
+    appGetData('./db/restaurants.json').then(data => {
+        data.forEach(restaurant => createRestaurantssInMain(restaurant, createRestaurantInMain));
     });
 
     init(appTouch, sectionGoodsInMainTouch, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm);
@@ -486,6 +560,7 @@ if (touchScreen) appTouch(
     appBack,
     appCreateElements,
     createGoodsInMain,
+    createRestaurantssInMain,
     goodsCreateContent,
     initialization,
     openForm,
