@@ -4,7 +4,6 @@
     position: absolute;
     height: 100%;
     overflow: hidden;
-    background-color: #fff;
 
     &__scroll {
         width: 107%;
@@ -33,7 +32,6 @@
             & #see-all-goods {
                 font-size: 1rem;
                 font-weight: 600;
-                color: #403777;
                 padding: 1rem 0;
             }
         }
@@ -50,7 +48,6 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background-color: #fff;
                 z-index: 99;
 
                 display: flex;
@@ -60,7 +57,8 @@
                 & span {
                     width: 1.6rem;
                     height: 1.6rem;
-                    border: .13rem solid #403777;
+                    border-width: .13rem;
+                    border-style: solid;
                     border-radius: 50%;
                     border-left-color: transparent;
                     animation: expectationLoading .5s linear 0s infinite;
@@ -92,10 +90,6 @@
                 margin-right: .5rem;
                 position: relative;
                 z-index: 10;
-                // border: 1px solid red;
-                // box-shadow: 0 .1rem .1rem #ccc;
-                // border-radius: 1rem;
-                // overflow: hidden;
 
                 &:last-of-type {
                     margin-right: 0;
@@ -144,7 +138,6 @@
                     right: 1rem;
                     bottom: 1rem;
                     z-index: 4;
-                    color: #fff;
                 }
 
                 &__pepper {
@@ -154,14 +147,12 @@
                     width: 100%;
                     height: 100%;
                     z-index: 3;
-                    background-color: rgba(0, 0, 0, .1);
                 }
 
                 &__wrap-text {
                     width: 100%;
                     height: 5.9rem;
                     position: relative;
-                    // border: 1px solid red;
                 }
 
                 &__name {
@@ -175,20 +166,13 @@
                     display: inline-flex;
                     justify-content: center;
                     align-items: center;
-                    border: .05rem solid #ccc;
+                    border-width: .05rem;
+                    border-style: solid;
                     border-radius: 1rem;
                     padding: .5rem;
                     font-size: .8rem;
                     font-weight: 400;
-                    color: #999;
-                    background-color: #fff;
                     transition: all .2s ease 0s;
-
-                    &.active {
-                        background-color: #403777;
-                        border-color: transparent;
-                        color: #fff;
-                    }
                 }
             }
         }

@@ -88,6 +88,10 @@ h6 {
   font-weight: 400;
 }
 
+.app-loading {
+  z-index: 1100;
+}
+
 .app-touch-main {
   z-index: 1;
 }
@@ -120,14 +124,244 @@ h6 {
   z-index: 1005;
 }
 
+.app-touch {
+  background-color: #fff;
+}
+
+.app-touch-back {
+  background-color: #fff;
+}
+
+.app-touch-back__title {
+  color: #000;
+}
+
+.app-touch-form__close {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.app-touch-form__swipe {
+  background-color: #fff;
+}
+
+.app-touch-form__swipe:after {
+  background-color: #ccc;
+}
+
+.app-touch-form__wrap-form {
+  background-color: #fff;
+}
+
+.app-touch-form .form__good-name {
+  color: #000;
+}
+
+.app-touch-form .form__good-time {
+  color: #999;
+}
+
+.app-touch-form .form__title {
+  background-color: inherit;
+}
+
+.app-touch-form .form__title h2 {
+  color: #000;
+}
+
+.app-touch-form .form__ingredients {
+  background-color: inherit;
+}
+
+.app-touch-form .form__ingredient-el.active .form__ingredient-chec {
+  border-color: #fff;
+  background-color: #403777;
+}
+
+.app-touch-form .form__ingredient-chec {
+  border-color: #e2e2e2;
+  background-color: #fff;
+}
+
+.app-touch-form .form__ingredient-name {
+  color: #000;
+}
+
+.app-touch-form .form__btn-submit {
+  color: #403777;
+  background-color: #fff;
+  border-color: #403777;
+}
+
+.app-touch-good {
+  background-color: #fff;
+}
+
+.app-touch-good__scroll {
+  background-color: inherit;
+}
+
+.app-touch-good__categories {
+  background-color: #fff;
+  border-color: #f2f2f2;
+}
+
+.app-touch-good__categories-scroll {
+  background-color: inherit;
+}
+
+.app-touch-good__categories-el {
+  background-color: inherit;
+}
+
+.app-touch-good__categories-el span {
+  color: #000;
+}
+
+.app-touch-good__categories-el:after {
+  background-color: #402eb6;
+}
+
+.app-touch-good__categories-el.active span {
+  color: #402eb6;
+}
+
+.app-touch-good__goods {
+  background-color: inherit;
+}
+
+.app-touch-good__goods .expectation {
+  background-color: #fff;
+}
+
+.app-touch-good__goods .expectation span {
+  border-color: #403777;
+}
+
+.app-touch-good__goods-wrap {
+  background-color: inherit;
+}
+
+.app-touch-good .good {
+  background-color: inherit;
+}
+
+.app-touch-good .good__content {
+  background-color: inherit;
+}
+
+.app-touch-good .good__time {
+  color: #fff;
+}
+
+.app-touch-good .good__pepper {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.app-touch-good .good__wrap-text {
+  background-color: inherit;
+}
+
+.app-touch-good .good__name {
+  color: #000;
+}
+
+.app-touch-good .good__choose {
+  color: #999;
+  border-color: #ccc;
+  background-color: inherit;
+}
+
+.app-touch-good .good__choose.active {
+  color: #fff;
+  border-color: transparent;
+  background-color: #403777;
+}
+
+.app-touch-main {
+  background-color: #fff;
+}
+
+.app-touch-main__scroll {
+  background-color: inherit;
+}
+
+.app-touch-main__section {
+  background-color: inherit;
+}
+
+.app-touch-main .goods {
+  background-color: inherit;
+}
+
+.app-touch-main .goods__see-all #see-all-goods {
+  color: #403777;
+}
+
+.app-touch-main .goods__wrap-scroll {
+  background-color: inherit;
+}
+
+.app-touch-main .goods__wrap-scroll .expectation {
+  background-color: #fff;
+}
+
+.app-touch-main .goods__wrap-scroll .expectation span {
+  border-color: #403777;
+}
+
+.app-touch-main .goods__scroll {
+  background-color: inherit;
+}
+
+.app-touch-main .goods__scroll .good {
+  background-color: inherit;
+}
+
+.app-touch-main .goods__scroll .good__content {
+  background-color: inherit;
+}
+
+.app-touch-main .goods__scroll .good__time {
+  color: #fff;
+}
+
+.app-touch-main .goods__scroll .good__pepper {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.app-touch-main .goods__scroll .good__wrap-text {
+  background-color: inherit;
+}
+
+.app-touch-main .goods__scroll .good__name {
+  color: #000;
+}
+
+.app-touch-main .goods__scroll .good__choose {
+  color: #999;
+  border-color: #ccc;
+  background-color: inherit;
+}
+
+.app-touch-main .goods__scroll .good__choose.active {
+  color: #fff;
+  border-color: transparent;
+  background-color: #403777;
+}
+
+.app-touch-title {
+  color: #000;
+}
+
 html,
 body {
   overflow: hidden;
 }
 
 .app {
-  overflow: hidden;
+  width: 100%;
   min-height: 100%;
+  overflow: hidden;
 }
 
 .app * {
@@ -176,12 +410,6 @@ body {
   align-items: center;
 }
 
-.app-touch-title span {
-  font-size: 1rem;
-  color: #ccc;
-  margin-left: 1rem;
-}
-
 .app-touch-back {
   position: fixed;
   top: 0;
@@ -189,7 +417,6 @@ body {
   z-index: 10;
   width: 100%;
   height: 4rem;
-  background-color: #fff;
 }
 
 .app-touch-back__wrap {
@@ -214,7 +441,6 @@ body {
 
 .app-touch-back__title {
   font-size: 1.1rem;
-  color: #000;
   margin-left: 1.5rem;
 }
 
@@ -226,7 +452,6 @@ body {
   position: absolute;
   height: 100%;
   overflow: hidden;
-  background-color: #fff;
 }
 
 .app-touch-main__scroll {
@@ -255,7 +480,6 @@ body {
 .app-touch-main .goods__see-all #see-all-goods {
   font-size: 1rem;
   font-weight: 600;
-  color: #403777;
   padding: 1rem 0;
 }
 
@@ -272,7 +496,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #fff;
   z-index: 99;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -291,7 +514,8 @@ body {
 .app-touch-main .goods__wrap-scroll .expectation span {
   width: 1.6rem;
   height: 1.6rem;
-  border: .13rem solid #403777;
+  border-width: .13rem;
+  border-style: solid;
   border-radius: 50%;
   border-left-color: transparent;
   -webkit-animation: expectationLoading .5s linear 0s infinite;
@@ -377,7 +601,6 @@ body {
   right: 1rem;
   bottom: 1rem;
   z-index: 4;
-  color: #fff;
 }
 
 .app-touch-main .goods__scroll .good__pepper {
@@ -387,7 +610,6 @@ body {
   width: 100%;
   height: 100%;
   z-index: 3;
-  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .app-touch-main .goods__scroll .good__wrap-text {
@@ -413,22 +635,15 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  border: .05rem solid #ccc;
+  border-width: .05rem;
+  border-style: solid;
   border-radius: 1rem;
   padding: .5rem;
   font-size: .8rem;
   font-weight: 400;
-  color: #999;
-  background-color: #fff;
   -webkit-transition: all .2s ease 0s;
   -o-transition: all .2s ease 0s;
   transition: all .2s ease 0s;
-}
-
-.app-touch-main .goods__scroll .good__choose.active {
-  background-color: #403777;
-  border-color: transparent;
-  color: #fff;
 }
 
 @-webkit-keyframes expectationLoading {
@@ -461,7 +676,6 @@ body {
   position: absolute;
   height: 100%;
   overflow: hidden;
-  background-color: #fff;
   opacity: 0;
   visibility: hidden;
   -webkit-transition: all .3s ease 0s;
@@ -490,8 +704,8 @@ body {
   width: 100%;
   height: 3.5rem;
   overflow: hidden;
-  background-color: #fff;
-  border-bottom: .1rem solid #f2f2f2;
+  border-bottom-width: .1rem;
+  border-bottom-style: solid;
 }
 
 .app-touch-good__categories-scroll {
@@ -521,7 +735,6 @@ body {
 }
 
 .app-touch-good__categories-el span {
-  color: #000;
   font-weight: 400;
   font-size: 1rem;
   -webkit-transition: all .5s ease 0s;
@@ -536,14 +749,9 @@ body {
   bottom: 0;
   width: 0%;
   height: .1rem;
-  background-color: #402eb6;
   -webkit-transition: all .4s ease 0s;
   -o-transition: all .4s ease 0s;
   transition: all .4s ease 0s;
-}
-
-.app-touch-good__categories-el.active span {
-  color: #402eb6;
 }
 
 .app-touch-good__categories-el.active::after {
@@ -563,7 +771,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: #fff;
   z-index: 99;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -582,7 +789,8 @@ body {
 .app-touch-good__goods .expectation span {
   width: 1.6rem;
   height: 1.6rem;
-  border: .13rem solid #403777;
+  border-width: .13rem;
+  border-style: solid;
   border-radius: 50%;
   border-left-color: transparent;
   -webkit-animation: expectationLoading .5s linear 0s infinite;
@@ -677,7 +885,6 @@ body {
   right: 1rem;
   bottom: 1rem;
   z-index: 4;
-  color: #fff;
 }
 
 .app-touch-good .good__pepper {
@@ -687,7 +894,6 @@ body {
   width: 100%;
   height: 100%;
   z-index: 3;
-  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .app-touch-good .good__wrap-text {
@@ -710,22 +916,15 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  border: .05rem solid #ccc;
+  border-width: .05rem;
+  border-style: solid;
   border-radius: 1rem;
   padding: .5rem;
   font-size: .8rem;
   font-weight: 400;
-  color: #999;
-  background-color: #fff;
   -webkit-transition: all .2s ease 0s;
   -o-transition: all .2s ease 0s;
   transition: all .2s ease 0s;
-}
-
-.app-touch-good .good__choose.active {
-  background-color: #403777;
-  border-color: transparent;
-  color: #fff;
 }
 
 @-webkit-keyframes show {
@@ -794,7 +993,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .app-touch-form__swipe {
@@ -803,6 +1001,22 @@ body {
   left: 0;
   width: 100%;
   height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.app-touch-form__swipe:after {
+  content: '';
+  width: 2rem;
+  height: .2rem;
+  border-radius: 5rem;
 }
 
 .app-touch-form__wrap-form {
@@ -812,7 +1026,6 @@ body {
   width: 100%;
   height: 77vh;
   padding: 2rem;
-  background-color: #fff;
   border-top-right-radius: 2rem;
   border-top-left-radius: 2rem;
   overflow: hidden;
@@ -887,14 +1100,12 @@ body {
 .app-touch-form .form__good-time {
   margin-top: .5rem;
   font-size: 0.9rem;
-  color: #999;
 }
 
 .app-touch-form .form__title {
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: #fff;
   padding: 2rem 0 1rem .1rem;
 }
 
@@ -920,8 +1131,8 @@ body {
 }
 
 .app-touch-form .form__ingredient-el.active .form__ingredient-chec {
-  border: .4rem solid #fff;
-  background-color: #403777;
+  border-width: .4rem;
+  border-style: solid;
 }
 
 .app-touch-form .form__ingredient-el.nothing {
@@ -931,8 +1142,8 @@ body {
 .app-touch-form .form__ingredient-chec {
   width: 1.4rem;
   height: 1.4rem;
-  border: 0.05rem solid #e2e2e2;
-  background-color: #fff;
+  border-width: .05rem;
+  border-style: solid;
   border-radius: 50%;
   margin-right: .5rem;
   -webkit-transition: all .2s ease 0s;
@@ -966,7 +1177,6 @@ body {
   height: 100%;
   padding: 0 2rem;
   border-radius: 5rem;
-  color: #000;
-  border: 1px solid #000;
-  background-color: #fff;
+  border-width: .05rem;
+  border-style: solid;
 }

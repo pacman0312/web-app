@@ -1,5 +1,5 @@
 const touchScreen = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-const app = document.getElementById('app');
+// const app = document.getElementById('app');
 
 const appSettings = {
     width: document.documentElement.clientWidth,
@@ -172,7 +172,7 @@ const createGoodsInMain = (good, createGoodsInMainTouch) => {
 };
 
 const goodsCreateContent = (appTouchGoods, back) => {
-    appTouchGoods.classList.add('active');
+    // appTouchGoods.classList.add('active');
 
     const goodsScroll = document.querySelector('.app-touch-good__scroll');
 
@@ -390,8 +390,10 @@ const initialization = (appTouch, sectionGoods, goodsCreateContent, appTouchGood
     sectionGoods.addEventListener('click', function(e) {
         const seeAll = e.target.closest('#see-all-goods');
         
-        if (seeAll) goodsCreateContent(appTouchGoods, back);
-        else return;
+        if (seeAll) {
+            appTouchGoods.classList.add('active');
+            setTimeout(() => goodsCreateContent(appTouchGoods, back), 100);
+        } else return;
     });
 
     form.formClose.addEventListener('click', function() {
@@ -400,7 +402,7 @@ const initialization = (appTouch, sectionGoods, goodsCreateContent, appTouchGood
     });
     form.formWrapForm.addEventListener('swiped-down', function(event) {
         closeForm(form);
-    })
+    });
 };
 
 const appTouch = (
@@ -412,7 +414,7 @@ const appTouch = (
     openForm,
     closeForm
 ) => {
-    app.classList.add('app__TOUCH');
+    app.classList.add('app_TOUCH');
 
     const appTouch = createElements(app, 'div', 'app-touch', appSettings.positionElements.beforeend);
     const appTouchMain = createElements(appTouch, 'main', 'app-touch-main', appSettings.positionElements.beforeend);
@@ -478,7 +480,7 @@ const appTouch = (
 
     init(appTouch, sectionGoodsInMainTouch, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm);
 };
-const appDesktop = () => app.classList.add('app__DESKTOP');
+const appDesktop = () => app.classList.add('app_DESKTOP');
 
 if (touchScreen) appTouch(
     appBack,

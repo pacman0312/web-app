@@ -12,8 +12,10 @@
 
 @import './fonts';
 @import './settings/null';
-@import './settings/colors';
 @import './settings/z-index';
+
+@import './theme/light';
+// @import './theme/dark';
 
 @import './app';
 

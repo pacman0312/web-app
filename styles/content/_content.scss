@@ -1,14 +1,7 @@
 .app-touch-title {
-    // font-family: 'Noto Serif', serif;
     font-size: 1.3rem;
     font-weight: 700;
     height: 4rem;
     display: flex;
     align-items: center;
-
-    & span {
-        font-size: 1rem;
-        color: #ccc;
-        margin-left: 1rem;
-    }
 }

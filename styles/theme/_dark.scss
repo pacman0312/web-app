@@ -1,0 +1,244 @@
+.app-touch {
+    background-color: #141414;
+}
+
+.app-touch-back {
+    background-color: #141414;
+
+    &__title {
+        color: #fff;
+    }
+}
+
+.app-touch-form {
+    &__close {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &__swipe {
+        background-color: #141414;
+
+        &:after {
+            background-color: #ccc;
+        }
+    }
+
+    &__wrap-form {
+        background-color: #141414;
+    }
+
+    & .form {
+        &__good {
+            &-name {
+                color: #fff;
+            }
+
+            &-time {
+                color: #999;
+            }
+        }
+
+        &__title {
+            background-color: inherit;
+
+            & h2 {
+                color: #fff;
+            }
+        }
+
+        &__ingredients {
+            background-color: inherit;
+        }
+
+        &__ingredient {
+            &-el {
+                &.active .form__ingredient-chec {
+                    border-color: #141414;
+                    background-color: #403777;
+                }
+            }
+
+            &-chec {
+                border-color: #e2e2e2;
+                background-color: #141414;
+            }
+
+            &-name {
+                color: #fff;
+            }
+        }
+
+        &__btn {
+            &-submit {
+                color: #403777;
+                background-color: #141414;
+                border-color: #403777;
+            }
+        }
+    }
+}
+
+.app-touch-good {
+    background-color: #141414;
+
+    &__scroll {
+        background-color: inherit;
+    }
+
+    &__categories {
+        background-color: #141414;
+        border-color: 666;
+
+        &-scroll {
+            background-color: inherit;
+        }
+
+        &-el {
+            background-color: inherit;
+
+            & span {
+                color: #fff;
+            }
+
+            &:after {
+                background-color: #402eb6;
+            }
+
+            &.active {
+                & span {
+                    color: #402eb6;
+                }
+            }
+        }
+    }
+
+    &__goods {
+        background-color: inherit;
+
+        & .expectation {
+            background-color: #141414;
+
+            & span {
+                border-color: #403777;
+            }
+        }
+
+        &-wrap {
+            background-color: inherit;
+        }
+    }
+
+    & .good {
+        background-color: inherit;
+
+        &__content {
+            background-color: inherit;
+        }
+
+        &__time {
+            color: #fff;
+        }
+
+        &__pepper {
+            background-color: rgba(0, 0, 0, .1);
+        }
+
+        &__wrap-text {
+            background-color: inherit;
+        }
+
+        &__name {
+            color: #fff;
+        }
+
+        &__choose {
+            color: #999;
+            border-color: #ccc;
+            background-color: inherit;
+
+            &.active {
+                color: #141414;
+                border-color: transparent;
+                background-color: #403777;
+            }
+        }
+    }
+}
+
+.app-touch-main {
+    background-color: #141414;
+
+    &__scroll {
+        background-color: inherit;
+    }
+
+    &__section {
+        background-color: inherit;
+    }
+
+    & .goods {
+        background-color: inherit;
+
+        &__see-all {
+            & #see-all-goods {
+                color: #403777;
+            }
+        }
+
+        &__wrap-scroll {
+            background-color: inherit;
+
+            & .expectation {
+                background-color: #141414;
+
+                & span {
+                    border-color: #403777;
+                }
+            }
+        }
+
+        &__scroll {
+            background-color: inherit;
+
+            & .good {
+                background-color: inherit;
+
+                &__content {
+                    background-color: inherit;
+                }
+
+                &__time {
+                    color: #fff;
+                }
+
+                &__pepper {
+                    background-color: rgba(0, 0, 0, .1);
+                }
+
+                &__wrap-text {
+                    background-color: inherit;
+                }
+
+                &__name {
+                    color: #fff;
+                }
+
+                &__choose {
+                    color: #999;
+                    border-color: #ccc;
+                    background-color: inherit;
+
+                    &.active {
+                        color: #141414;
+                        border-color: transparent;
+                        background-color: #403777;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.app-touch-title {
+    color: #fff;
+}

@@ -4,8 +4,9 @@ body {
 }
 
 .app {
-    overflow: hidden;
+    width: 100%;
     min-height: 100%;
+    overflow: hidden;
 
     * {
         font-family: 'Nunito', sans-serif;

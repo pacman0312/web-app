@@ -4,7 +4,6 @@
     position: absolute;
     height: 100%;
     overflow: hidden;
-    background-color: #fff;
 
     opacity: 0;
     visibility: hidden;
@@ -31,8 +30,8 @@
         width: 100%;
         height: 3.5rem;
         overflow: hidden;
-        background-color: #fff;
-        border-bottom: .1rem solid #f2f2f2;
+        border-bottom-width: .1rem;
+        border-bottom-style: solid;
 
         &-scroll {
             display: flex;
@@ -51,7 +50,6 @@
             position: relative;
 
             & span {
-                color: #000;
                 font-weight: 400;
                 font-size: 1rem;
                 transition: all .5s ease 0s;
@@ -64,15 +62,10 @@
                 bottom: 0;
                 width: 0%;
                 height: .1rem;
-                background-color: #402eb6;
                 transition: all .4s ease 0s;
             }
 
             &.active {
-                & span {
-                    color: #402eb6;
-                }
-
                 &::after {
                     left: 0;
                     width: 100%;
@@ -92,7 +85,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #fff;
             z-index: 99;
 
             display: flex;
@@ -102,7 +94,8 @@
             & span {
                 width: 1.6rem;
                 height: 1.6rem;
-                border: .13rem solid #403777;
+                border-width: .13rem;
+                border-style: solid;
                 border-radius: 50%;
                 border-left-color: transparent;
                 animation: expectationLoading .5s linear 0s infinite;
@@ -187,7 +180,6 @@
             right: 1rem;
             bottom: 1rem;
             z-index: 4;
-            color: #fff;
         }
 
         &__pepper {
@@ -197,7 +189,6 @@
             width: 100%;
             height: 100%;
             z-index: 3;
-            background-color: rgba(0, 0, 0, .1);
         }
 
         &__wrap-text {
@@ -214,20 +205,13 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            border: .05rem solid #ccc;
+            border-width: .05rem;
+            border-style: solid;
             border-radius: 1rem;
             padding: .5rem;
             font-size: .8rem;
             font-weight: 400;
-            color: #999;
-            background-color: #fff;
             transition: all .2s ease 0s;
-
-            &.active {
-                background-color: #403777;
-                border-color: transparent;
-                color: #fff;
-            }
         }
     }
 }
