@@ -274,29 +274,42 @@
 
     & .restaurants {
         &__slider {
-            &-btns {
-                display: none;
-            }
+            position: relative;
 
             &-track {
                 position: relative;
-
                 display: flex;
+                transition: all .6s ease 0s;
             }
 
             &-item {
-                flex: 0 0 100%;
+                min-width: 100%;
                 overflow: hidden;
+                margin-right: 1rem;
 
                 &-content {}
 
                 &-wrap-img {
                     border-radius: 1rem;
                     overflow: hidden;
-                    border: .05rem solid #ccc;
+                    position: relative;
+                    padding-bottom: 73%;
                 }
 
-                &-img {}
+                &-img {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    opacity: 0;
+                    transition: all .3s ease 0s;
+
+                    &.active {
+                        opacity: 1;
+                    }
+                }
 
                 &-wrap-text {
                     padding: 1rem;
@@ -311,7 +324,10 @@
                     font-size: .8rem;
                     line-height: 1.5;
                     font-weight: 400;
-                    color: #adadad;
+
+                    & a {
+                        color: #adadad;
+                    }
                 }
             }
         }

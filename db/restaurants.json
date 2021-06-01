@@ -4,13 +4,23 @@
         "name": "River",
         "img": "images/restaurants/river.jpg",
         "menu": "images/restaurants/river.jpg, images/restaurants/river.jpg, images/restaurants/river.jpg",
-        "address": "Ярославская улица, 29"
+        "address": "Ярославская улица, 29",
+        "link": "https://goo.gl/maps/yJTQ7Hb1PXvVPbEy5"
     },
     {
         "id": "kveli",
         "name": "Kveli",
         "img": "images/restaurants/kveli.jpg",
         "menu": "images/restaurants/kveli.jpg, images/restaurants/kveli.jpg, images/restaurants/kveli.jpg",
-        "address": "улица Михаила Сеспеля, 11, Чебоксары"
+        "address": "улица Михаила Сеспеля, 11",
+        "link": "https://goo.gl/maps/j4gMggQz7YX3SAHk7"
+    },
+    {
+        "id": "carlsson",
+        "name": "Carlsson",
+        "img": "images/restaurants/carlsson.jpg",
+        "menu": "images/restaurants/carlsson.jpg, images/restaurants/carlsson.jpg, images/restaurants/carlsson.jpg",
+        "address": "Ярославская ул., 27",
+        "link": "https://goo.gl/maps/WcntEbHjTXLLhR9G8"
     }
 ]

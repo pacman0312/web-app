@@ -8,6 +8,10 @@ const appSettings = {
     lazyLoadingDelay: 300,
     positionElements: {
         beforeend: 'beforeend'
+    },
+    restaurantSlider: {
+        position: 0,
+        slidesToScroll: 1
     }
 };
 
@@ -181,26 +185,33 @@ const createGoodsInMain = (good, createGoodsInMainTouch) => {
         createGoodsInMainTouch.insertAdjacentHTML(appSettings.positionElements.beforeend, goodCode);
     }
 };
-const createRestaurantssInMain = (restaurant, createRestaurantInMain) => {
+const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch) => {
     const {
-        id, name, img, menu, address
+        id, name, img, menu, address, link
     } = restaurant;
+    
+    const element = document.createElement('div');
+    element.className = 'restaurants__slider-item';
+    element.setAttribute('id', id);
+    element.setAttribute('data-menu', menu);
 
-    const restaurantCode = `
-        <div class="restaurants__slider-item" id="${id}" data-menu="${menu}">
-            <div class="restaurants__slider-item-content">
-                <div class="restaurants__slider-item-wrap-img">
-                    <img src="${img}" alt="" class="restaurants__slider-item-img">
-                </div>
-                <div class="restaurants__slider-item-wrap-text">
-                    <div class="restaurants__slider-item-name">${name}</div>
-                    <div class="restaurants__slider-item-address">${address}</div>
+    element.insertAdjacentHTML(appSettings.positionElements.beforeend, `
+        <div class="restaurants__slider-item-content">
+            <div class="restaurants__slider-item-wrap-img">
+                <img data-src="${img}" src="${appContent.main.goods.loadingImg}" alt="" class="restaurants__slider-item-img">
+            </div>
+            <div class="restaurants__slider-item-wrap-text">
+                <div class="restaurants__slider-item-name">${name}</div>
+                <div class="restaurants__slider-item-address">
+                    <a href="${link}">${address}</a>
                 </div>
             </div>
         </div>
-    `;
+    `);
 
-    createRestaurantInMain.insertAdjacentHTML(appSettings.positionElements.beforeend, restaurantCode);
+    if (id === 'kveli') element.children[0].children[0].style.border = '.05rem solid #ccc';
+
+    createRestaurantInMainTouch.insertAdjacentElement(appSettings.positionElements.beforeend, element);
 };
 
 const goodsCreateContent = (appTouchGoods, back) => {
@@ -395,7 +406,7 @@ const closeForm = form => {
     }, 300);
 };
 
-const initialization = (appTouch, sectionGoods, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm) => {
+const initialization = (appTouch, appTouchMainScroll, restaurantSlider, sectionGoods, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm) => {
 
     appTouch.addEventListener('click', function(e) {
         const good = e.target.closest('.good');
@@ -417,6 +428,8 @@ const initialization = (appTouch, sectionGoods, goodsCreateContent, appTouchGood
         } else return;
     });
 
+    appTouchMainScroll.addEventListener('scroll', () => lazyLoading(appTouchMainScroll, 'img[data-src]', appSettings.height, 'y'));
+
     sectionGoods.addEventListener('click', function(e) {
         const seeAll = e.target.closest('#see-all-goods');
         
@@ -430,6 +443,34 @@ const initialization = (appTouch, sectionGoods, goodsCreateContent, appTouchGood
     appTouchGoods.addEventListener('swiped-left', function(event) {
         this.classList.remove('active');
         this.children[0].textContent = '';
+    });
+    
+    // нужно написать свой свайп. этот работает не так, как мне нужно
+    restaurantSlider.slider.addEventListener('swiped-left', function() {
+        restaurantSlider.position -= restaurantSlider.movePosition;
+
+        restaurantSlider.track.style.transform = `translateX(${restaurantSlider.position}px)`;
+
+        const sliderNoActive = -(restaurantSlider.itemsCount - 1) * restaurantSlider.slider.clientWidth + 16;
+        const sliderItemMargin = (restaurantSlider.itemsCount * 16);
+
+        if (restaurantSlider.position <= sliderNoActive) {
+            restaurantSlider.position = sliderNoActive - sliderItemMargin;
+            restaurantSlider.track.style.transform = `translateX(${restaurantSlider.position}px)`;
+        }
+    });
+    // нужно написать свой свайп. этот работает не так, как мне нужно
+    restaurantSlider.slider.addEventListener('swiped-right', function() {
+        restaurantSlider.position += restaurantSlider.movePosition;
+
+        restaurantSlider.track.style.transform = `translateX(${restaurantSlider.position}px)`;
+
+        const sliderNoActive = 0;
+
+        if (restaurantSlider.position >= sliderNoActive) {
+            restaurantSlider.position = sliderNoActive;
+            restaurantSlider.track.style.transform = `translateX(${restaurantSlider.position}px)`;
+        }
     });
 
     form.formClose.addEventListener('click', function() {
@@ -494,10 +535,6 @@ const appTouch = (
                     </div>
                     <div class="restaurants__slider">
                         <div id="create-restaurant-in-main" class="restaurants__slider-track"></div>
-                        <div class="restaurants__slider-btns">
-                            <button id="prev">prev</button>
-                            <button id="next">next</button>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -525,10 +562,19 @@ const appTouch = (
         </div>
     `);
 
+    const appTouchMainScroll = document.querySelector('.app-touch-main__scroll');
+
     const createGoodsInMainTouch = document.getElementById('create-goods-in-main');
     const sectionGoodsInMainTouch = document.querySelector('.app-touch-main__section_goods');
 
-    const createRestaurantInMain = document.getElementById('create-restaurant-in-main');
+    const createRestaurantInMainTouch = document.getElementById('create-restaurant-in-main');
+        
+    const restaurantSlider = {
+        slider: document.querySelector('.restaurants__slider'),
+        track: document.querySelector('.restaurants__slider-track'),
+        position: appSettings.restaurantSlider.position,
+        slidesToScroll: appSettings.restaurantSlider.slidesToScroll
+    };
 
     const form = {
         appTouchForm: appTouchForm,
@@ -549,10 +595,14 @@ const appTouch = (
     });
 
     appGetData('./db/restaurants.json').then(data => {
-        data.forEach(restaurant => createRestaurantssInMain(restaurant, createRestaurantInMain));
+        data.forEach(restaurant => createRestaurantssInMain(restaurant, createRestaurantInMainTouch));
+
+        restaurantSlider['item'] = document.querySelectorAll('.restaurants__slider-item');
+        restaurantSlider['itemsCount'] = restaurantSlider.item.length;
+        restaurantSlider['movePosition'] = restaurantSlider.slidesToScroll * restaurantSlider.slider.clientWidth + 16;
     });
 
-    init(appTouch, sectionGoodsInMainTouch, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm);
+    init(appTouch, appTouchMainScroll, restaurantSlider, sectionGoodsInMainTouch, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm);
 };
 const appDesktop = () => app.classList.add('app_DESKTOP');
 

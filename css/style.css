@@ -412,7 +412,8 @@ body {
   font-weight: 500;
 }
 
-.app-touch-title_goods {
+.app-touch-title_goods,
+.app-touch-title_restaurants {
   font-size: 1.3rem;
   height: 4rem;
   display: -webkit-box;
@@ -791,8 +792,8 @@ body {
   transition: all .2s ease 0s;
 }
 
-.app-touch-main .restaurants__slider-btns {
-  display: none;
+.app-touch-main .restaurants__slider {
+  position: relative;
 }
 
 .app-touch-main .restaurants__slider-track {
@@ -800,19 +801,40 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-transition: all .6s ease 0s;
+  -o-transition: all .6s ease 0s;
+  transition: all .6s ease 0s;
 }
 
 .app-touch-main .restaurants__slider-item {
-  -webkit-box-flex: 0;
-  -ms-flex: 0 0 100%;
-  flex: 0 0 100%;
+  min-width: 100%;
   overflow: hidden;
+  margin-right: 1rem;
 }
 
 .app-touch-main .restaurants__slider-item-wrap-img {
   border-radius: 1rem;
   overflow: hidden;
-  border: .05rem solid #ccc;
+  position: relative;
+  padding-bottom: 73%;
+}
+
+.app-touch-main .restaurants__slider-item-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  opacity: 0;
+  -webkit-transition: all .3s ease 0s;
+  -o-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+}
+
+.app-touch-main .restaurants__slider-item-img.active {
+  opacity: 1;
 }
 
 .app-touch-main .restaurants__slider-item-wrap-text {
@@ -828,6 +850,9 @@ body {
   font-size: .8rem;
   line-height: 1.5;
   font-weight: 400;
+}
+
+.app-touch-main .restaurants__slider-item-address a {
   color: #adadad;
 }
 
