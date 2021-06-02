@@ -5,7 +5,7 @@ const appSettings = {
     width: document.documentElement.clientWidth,
     height: document.documentElement.clientHeight,
     breakpoint: 500,
-    lazyLoadingDelay: 300,
+    lazyLoadingImgDelay: 300,
     positionElements: {
         beforeend: 'beforeend'
     },
@@ -51,60 +51,42 @@ const appContent = {
     }
 };
 
-const lazyLoading = (elScroll, elImg, windowSize, page) => {
-    const lazyLoadingImg = document.querySelectorAll(elImg);
-    let lazyLoadingImgPositions = [];
+const lazyLoadingImg = async (elScroll, element, page) => {
+    const elements = document.querySelectorAll(element);
 
-    const lazy = el => {
-        let indexImg = lazyLoadingImgPositions.findIndex(item => el > item - windowSize);
-        
-        if (indexImg >= 0) {
-            let index = lazyLoadingImg[indexImg].dataset.src;
+    function lazy(scroll) {
+        for (const element of elements) {
+            let elementOffset = element.offsetTop;
+            let elementPosition = 750;
 
-            if (index) {
-                lazyLoadingImg[indexImg].src = lazyLoadingImg[indexImg].dataset.src;
-                lazyLoadingImg[indexImg].removeAttribute('data-src');
-
-                setTimeout(() => {
-                    lazyLoadingImg[indexImg].classList.add('active');
-
-                    // if (lazyLoadingImg[indexImg].classList.contains('active')) {
-                    //     lazyLoadingImg[indexImg].offsetParent.offsetParent.children[2].classList.add('active');
-                    // };
-                }, appSettings.lazyLoadingDelay);
-            }
-            delete lazyLoadingImgPositions[indexImg]
+            if (page === 'x') {
+                elementOffset = element.offsetLeft;
+                elementPosition = 300;
+                lazyActiveImg(scroll, elementOffset, elementPosition, element);
+            } 
+            lazyActiveImg(scroll, elementOffset, elementPosition, element);
         }
     };
 
-    if (lazyLoadingImg.length > 0) {
-        for (const img of lazyLoadingImg) {
-            let dataSrc = img.dataset.src;
+    function lazyActiveImg(scroll, elementOffset, elementPosition, element) {
+        if (elementOffset >= 0) {
+            if (scroll > elementOffset - elementPosition) {
+                const img = element.querySelector('img');
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
 
-            if (page === 'x') {
-                if (dataSrc) {
-                    lazyLoadingImgPositions.push(img.getBoundingClientRect().left + pageXOffset);
-                    lazy(pageXOffset);
-                }
-            } else if (page === 'y') {
-                if (dataSrc) {
-                    lazyLoadingImgPositions.push(img.getBoundingClientRect().top + pageYOffset);
-                    lazy(pageYOffset);
+                    setTimeout(() => img.classList.add('active'), appSettings.lazyLoadingImgDelay);
                 }
             }
         }
-    }
+    };
 
-    elScroll.addEventListener('scroll', function(event) {
-        if (lazyLoadingImg.length > 0) {
-            if (page === 'x') {
-                const scroll = event.target.scrollLeft;
-                lazy(scroll);
-            } else if (page === 'y') {
-                const scroll = event.target.scrollTop;
-                lazy(scroll);
-            }
-        }
+    lazy(elScroll.offsetTop);
+
+    elScroll.addEventListener('scroll', function(e) {
+        if (page === 'x') lazy(e.target.scrollLeft);
+        else lazy(e.target.scrollTop);
     });
 };
 
@@ -164,7 +146,7 @@ const createGoodsInMain = (good, createGoodsInMainTouch) => {
     } = good;
 
     const goodCode = `
-        <div class="good" data-name="${name}" data-ingredients="${ing}" data-img="${img}" data-time="${time}">
+        <div class="good good_in-main" data-name="${name}" data-ingredients="${ing}" data-img="${img}" data-time="${time}">
             <div class="good__content">
                 <div class="good__wrap">
                     <div class="good__wrap-img">
@@ -253,11 +235,11 @@ const goodsCreateContent = (appTouchGoods, back) => {
             } = good;
 
             goodsGoods.insertAdjacentHTML(appSettings.positionElements.beforeend, `
-                <div class="good" data-filter="${category}" data-name="${name}" data-ingredients="${ing}" data-img="${img}" data-time="${time}">
+                <div class="good good_in-goods" data-filter="${category}" data-name="${name}" data-ingredients="${ing}" data-img="${img}" data-time="${time}">
                     <div class="good__content">
                         <div class="good__wrap">
                             <div class="good__wrap-img">
-                                <img data-src="${img}" src="${appContent.main.goods.loadingImg}" alt="good-img-${id}" class="good__img">
+                                <img data-src="${img}" src="${appContent.main.goods.loadingImg}" alt="good-img-${id}" class="good__img good__img_src">
                             </div>
                             <div class="good__time">${time}</div>
                             <div class="good__pepper"></div>
@@ -270,7 +252,7 @@ const goodsCreateContent = (appTouchGoods, back) => {
                 </div>
             `);            
         });
-        lazyLoading(goodsScroll, 'img[data-src]', appSettings.height, 'y');
+        lazyLoadingImg(goodsScroll, '.good_in-goods');
     });  
 
     appTouchGoods.addEventListener('click', function(event) {
@@ -299,9 +281,7 @@ const goodsCreateContent = (appTouchGoods, back) => {
                     good.classList.remove('hide');
                 }
             }
-
-            
-            lazyLoading(goodsScroll, 'img[data-src]', appSettings.height, 'y');
+            lazyLoadingImg(goodsScroll, '.good_in-goods');
         };
 
         if (back) {
@@ -428,8 +408,6 @@ const initialization = (appTouch, appTouchMainScroll, restaurantSlider, sectionG
         } else return;
     });
 
-    appTouchMainScroll.addEventListener('scroll', () => lazyLoading(appTouchMainScroll, 'img[data-src]', appSettings.height, 'y'));
-
     sectionGoods.addEventListener('click', function(e) {
         const seeAll = e.target.closest('#see-all-goods');
         
@@ -504,9 +482,9 @@ const appTouch = (
             <section class="app-touch-main__section app-touch-main__section_welcome">
                 <div class="app-touch-main__welcome">
                     <div class="app-touch-main__welcome-slider welcome-slider">
-                        <div class="welcome-slider__item">
+                        <div class="welcome-slider__item lazy">
                             <div class="welcome-slider__wrap-img">
-                                <img src="./images/main/welcome/4.png" alt="welcome4">
+                                <img data-src="./images/main/welcome/4.png" src="${appContent.main.goods.loadingImg}" alt="welcome4">
                             </div>
                         </div>
                     </div>
@@ -591,7 +569,7 @@ const appTouch = (
         data.forEach(good => createGoodsInMain(good, createGoodsInMainTouch));
 
         console.log(':: In main', createGoodsInMainTouch.children.length, 'elmenets');
-        lazyLoading(createGoodsInMainTouch, 'img[data-src]', appSettings.width, 'x');
+        lazyLoadingImg(createGoodsInMainTouch, '.good_in-main', 'x');
     });
 
     appGetData('./db/restaurants.json').then(data => {
@@ -600,7 +578,11 @@ const appTouch = (
         restaurantSlider['item'] = document.querySelectorAll('.restaurants__slider-item');
         restaurantSlider['itemsCount'] = restaurantSlider.item.length;
         restaurantSlider['movePosition'] = restaurantSlider.slidesToScroll * restaurantSlider.slider.clientWidth + 16;
+
+        lazyLoadingImg(appTouchMainScroll, '.restaurants__slider-item');
     });
+
+    lazyLoadingImg(appTouchMainScroll, '.lazy');
 
     init(appTouch, appTouchMainScroll, restaurantSlider, sectionGoodsInMainTouch, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm);
 };

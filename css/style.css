@@ -541,7 +541,6 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #2d2d2d;
   z-index: 2;
 }
 
@@ -616,6 +615,14 @@ body {
   -o-object-fit: cover;
   object-fit: cover;
   z-index: 2;
+  opacity: 0;
+  -webkit-transition: all .3s ease 0s;
+  -o-transition: all .3s ease 0s;
+  transition: all .3s ease 0s;
+}
+
+.app-touch-main .welcome-slider__wrap-img img.active {
+  opacity: 1;
 }
 
 .app-touch-main .welcome-slider__wrap-img:after {
@@ -1026,6 +1033,10 @@ body {
   border-radius: 1rem;
   height: auto;
   overflow: hidden;
+}
+
+.app-touch-good .good.qweqweqwe {
+  border: 1px solid red;
 }
 
 .app-touch-good .good.hide {

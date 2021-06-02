@@ -123,6 +123,10 @@
         height: auto;
         overflow: hidden;
 
+        &.qweqweqwe {
+            border: 1px solid red;
+        }
+
         &.hide {
             display: none;
         }
