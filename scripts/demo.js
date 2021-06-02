@@ -18,11 +18,12 @@ const appSettings = {
 const appContent = {
     main: {
         welcome: {
-            title: 'Welcome <br> to food',
+            // title: 'Welcome <br> to food',
+            title: 'Choose <br> and cook',
             descr: 'Наслаждайся едой'
         },
         goods: {
-            title: 'Choose and cook',
+            title: 'Recipes',
             seeAll: {
                 text: 'смотреть все',
                 icon: 'не добавил'
@@ -509,7 +510,7 @@ const appTouch = (
                 </div>
             </section>
             <section class="app-touch-main__section app-touch-main__section_restaurants">
-                <h2 class="app-touch-title app-touch-title_goods">${appContent.main.restaurants.title}</h2>
+                <h2 class="app-touch-title app-touch-title_restaurants">${appContent.main.restaurants.title}</h2>
                 <div class="app-touch-main__restaurants restaurants">
                     <div class="see-el">
                         <span id="see-menu">${appContent.main.restaurants.seeMenu.text}</span>

@@ -415,13 +415,13 @@ body {
 .app-touch-title_goods,
 .app-touch-title_restaurants {
   font-size: 1.3rem;
-  height: 4rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  padding-top: 1rem;
 }
 
 .app-touch-descr {
@@ -440,6 +440,7 @@ body {
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;
+  padding-top: 0;
 }
 
 .see-el #see-all-goods {
@@ -874,6 +875,7 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  margin-top: 1rem;
 }
 
 .app-touch-main .restaurants__slider-dot {
