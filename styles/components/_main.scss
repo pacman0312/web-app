@@ -335,6 +335,22 @@
                     }
                 }
             }
+
+            &-dots {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            &-dot {
+                width: .6rem;
+                height: .6rem;
+                background-color: transparent;
+                border: .05rem solid #ccc;
+                border-radius: 50%;
+                margin: 0 .2rem;
+            }
         }
     }
 }

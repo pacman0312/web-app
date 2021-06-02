@@ -167,7 +167,7 @@ const createGoodsInMain = (good, createGoodsInMainTouch) => {
         createGoodsInMainTouch.insertAdjacentHTML(appSettings.positionElements.beforeend, goodCode);
     }
 };
-const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch) => {
+const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch, createDotsRestaurantInMainTouch) => {
     const {
         id, name, img, menu, address, link
     } = restaurant;
@@ -191,9 +191,12 @@ const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch) => {
         </div>
     `);
 
+    const dots = `<span class="restaurants__slider-dot"></span>`;
+
     if (id === 'kveli') element.children[0].children[0].style.border = '.05rem solid #ccc';
 
     createRestaurantInMainTouch.insertAdjacentElement(appSettings.positionElements.beforeend, element);
+    createDotsRestaurantInMainTouch.insertAdjacentHTML(appSettings.positionElements.beforeend, dots);
 };
 
 const goodsCreateContent = (appTouchGoods, back) => {
@@ -513,6 +516,7 @@ const appTouch = (
                     </div>
                     <div class="restaurants__slider">
                         <div id="create-restaurant-in-main" class="restaurants__slider-track"></div>
+                        <div id="create-dots-restaurant-in-main" class="restaurants__slider-dots"></div>
                     </div>
                 </div>
             </section>
@@ -546,6 +550,7 @@ const appTouch = (
     const sectionGoodsInMainTouch = document.querySelector('.app-touch-main__section_goods');
 
     const createRestaurantInMainTouch = document.getElementById('create-restaurant-in-main');
+    const createDotsRestaurantInMainTouch = document.getElementById('create-dots-restaurant-in-main');
         
     const restaurantSlider = {
         slider: document.querySelector('.restaurants__slider'),
@@ -573,7 +578,7 @@ const appTouch = (
     });
 
     appGetData('./db/restaurants.json').then(data => {
-        data.forEach(restaurant => createRestaurantssInMain(restaurant, createRestaurantInMainTouch));
+        data.forEach(restaurant => createRestaurantssInMain(restaurant, createRestaurantInMainTouch, createDotsRestaurantInMainTouch));
 
         restaurantSlider['item'] = document.querySelectorAll('.restaurants__slider-item');
         restaurantSlider['itemsCount'] = restaurantSlider.item.length;
