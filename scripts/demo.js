@@ -170,15 +170,19 @@ const createGoodsInMain = (good, createGoodsInMainTouch) => {
 };
 const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch, createDotsRestaurantInMainTouch) => {
     const {
-        id, name, img, menu, address, link
+        id, dot, name, img, menu, address, link
     } = restaurant;
     
-    const element = document.createElement('div');
-    element.className = 'restaurants__slider-item';
-    element.setAttribute('id', id);
-    element.setAttribute('data-menu', menu);
+    const itemRestaurant = document.createElement('div');
+    itemRestaurant.className = 'restaurants__slider-item';
+    itemRestaurant.setAttribute('id', id);
+    itemRestaurant.setAttribute('data-menu', menu);
 
-    element.insertAdjacentHTML(appSettings.positionElements.beforeend, `
+    const dots = document.createElement('span');
+    dots.className = 'restaurants__slider-dot';
+    dots.setAttribute('data-dot', dot);
+
+    itemRestaurant.insertAdjacentHTML(appSettings.positionElements.beforeend, `
         <div class="restaurants__slider-item-content">
             <div class="restaurants__slider-item-wrap-img">
                 <img data-src="${img}" src="${appContent.main.goods.loadingImg}" alt="" class="restaurants__slider-item-img">
@@ -192,12 +196,11 @@ const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch, creat
         </div>
     `);
 
-    const dots = `<span class="restaurants__slider-dot"></span>`;
+    if (id === 'kveli' || id === 'prougli') itemRestaurant.children[0].children[0].style.border = '.05rem solid #f2f2f2';
+    if (dot == 0) dots.classList.add('active');
 
-    if (id === 'kveli') element.children[0].children[0].style.border = '.05rem solid #ccc';
-
-    createRestaurantInMainTouch.insertAdjacentElement(appSettings.positionElements.beforeend, element);
-    createDotsRestaurantInMainTouch.insertAdjacentHTML(appSettings.positionElements.beforeend, dots);
+    createRestaurantInMainTouch.insertAdjacentElement(appSettings.positionElements.beforeend, itemRestaurant);
+    createDotsRestaurantInMainTouch.insertAdjacentElement(appSettings.positionElements.beforeend, dots);
 };
 
 const goodsCreateContent = (appTouchGoods, back) => {
@@ -426,36 +429,47 @@ const initialization = (appTouch, appTouchMainScroll, restaurantSlider, sectionG
         this.classList.remove('active');
         this.children[0].textContent = '';
     });
-    
+
     // нужно написать свой свайп. этот работает не так, как мне нужно
-    restaurantSlider.slider.addEventListener('swiped-left', function() {
-        restaurantSlider.position -= restaurantSlider.movePosition;
-
-        restaurantSlider.track.style.transform = `translateX(${restaurantSlider.position}px)`;
-
-        const sliderNoActive = -(restaurantSlider.itemsCount - 1) * restaurantSlider.slider.clientWidth + 16;
-        const sliderItemMargin = (restaurantSlider.itemsCount * 16);
-
-        if (restaurantSlider.position <= sliderNoActive) {
-            restaurantSlider.position = sliderNoActive - sliderItemMargin;
-            restaurantSlider.track.style.transform = `translateX(${restaurantSlider.position}px)`;
-        }
+    restaurantSlider.slider.addEventListener('swiped-left', function() { 
+        // next
+        restaurantSlider.position = (restaurantSlider.position < restaurantSlider.itemsCount - 1) ? restaurantSlider.position + 1 : restaurantSlider.itemsCount - 1;
+        
+        restaurantSlider.track.style.transform = `translateX(${-restaurantSlider.movePosition * restaurantSlider.position}px)`;
+        restaurantSlider.dots.forEach(function(dot) {
+            dot.classList.remove('active');
+            if (dot.dataset.dot == restaurantSlider.position) dot.classList.add('active');
+        });
     });
     // нужно написать свой свайп. этот работает не так, как мне нужно
     restaurantSlider.slider.addEventListener('swiped-right', function() {
-        restaurantSlider.position += restaurantSlider.movePosition;
+        // prev
+        restaurantSlider.position = (restaurantSlider.position > restaurantSlider.itemsCount - restaurantSlider.itemsCount) ? restaurantSlider.position - 1 : restaurantSlider.itemsCount - restaurantSlider.itemsCount;
+        
+        restaurantSlider.track.style.transform = `translateX(${-restaurantSlider.movePosition * restaurantSlider.position}px)`;
+        restaurantSlider.dots.forEach(function(dot) {
+            dot.classList.remove('active');
+            if (dot.dataset.dot == restaurantSlider.position) dot.classList.add('active');
+        });
+    });
+    restaurantSlider.slider.addEventListener('click', function(event) {
+        const dot = event.target.closest('.restaurants__slider-dot');
+        const dots = document.querySelectorAll('.restaurants__slider-dot');
+        
+        if (dot) {
+            for (const dot of dots) {
+                dot.classList.remove('active');
+            }
 
-        restaurantSlider.track.style.transform = `translateX(${restaurantSlider.position}px)`;
+            const ind = Number(dot.dataset.dot);
+            restaurantSlider.position = ind;
 
-        const sliderNoActive = 0;
-
-        if (restaurantSlider.position >= sliderNoActive) {
-            restaurantSlider.position = sliderNoActive;
-            restaurantSlider.track.style.transform = `translateX(${restaurantSlider.position}px)`;
+            dot.classList.add('active');
+            restaurantSlider.track.style.transform = `translateX(${-restaurantSlider.movePosition * restaurantSlider.position}px)`;
         }
     });
 
-    form.formClose.addEventListener('click', function() {
+    form.formClose.addEventListener('click', function(event) {
         if (this.nextElementSibling.classList.contains('active')) closeForm(form);
         else return;
     });
@@ -583,6 +597,7 @@ const appTouch = (
 
         restaurantSlider['item'] = document.querySelectorAll('.restaurants__slider-item');
         restaurantSlider['itemsCount'] = restaurantSlider.item.length;
+        restaurantSlider['dots'] = document.querySelectorAll('.restaurants__slider-dot');
         restaurantSlider['movePosition'] = restaurantSlider.slidesToScroll * restaurantSlider.slider.clientWidth + 16;
 
         lazyLoadingImg(appTouchMainScroll, '.restaurants__slider-item');

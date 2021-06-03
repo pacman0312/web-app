@@ -1,6 +1,7 @@
 [
     {
         "id": "river",
+        "dot": "0",
         "name": "River",
         "img": "images/restaurants/river.jpg",
         "menu": "images/restaurants/river.jpg, images/restaurants/river.jpg, images/restaurants/river.jpg",
@@ -9,6 +10,7 @@
     },
     {
         "id": "kveli",
+        "dot": "1",
         "name": "Kveli",
         "img": "images/restaurants/kveli.jpg",
         "menu": "images/restaurants/kveli.jpg, images/restaurants/kveli.jpg, images/restaurants/kveli.jpg",
@@ -17,10 +19,20 @@
     },
     {
         "id": "carlsson",
+        "dot": "2",
         "name": "Carlsson",
         "img": "images/restaurants/carlsson.jpg",
         "menu": "images/restaurants/carlsson.jpg, images/restaurants/carlsson.jpg, images/restaurants/carlsson.jpg",
         "address": "Ярославская ул., 27",
         "link": "https://goo.gl/maps/WcntEbHjTXLLhR9G8"
+    },
+    {
+        "id": "prougli",
+        "dot": "3",
+        "name": "PRO УГЛИ",
+        "img": "images/restaurants/prougli.jpg",
+        "menu": "images/restaurants/prougli.jpg, images/restaurants/prougli.jpg, images/restaurants/prougli.jpg",
+        "address": "улица Карла Маркса 52 к 1",
+        "link": "https://goo.gl/maps/PQCR1y9Dwyd9EXUA7"
     }
 ]
