@@ -3,36 +3,36 @@
         "id": "river",
         "dot": "0",
         "name": "River",
-        "img": "images/restaurants/river.jpg",
-        "menu": "images/restaurants/river.jpg, images/restaurants/river.jpg, images/restaurants/river.jpg",
+        "img": "images/restaurants/river/river.jpg",
+        "menu": "images/restaurants/river/menu/2.jpg, images/restaurants/river/menu/3.jpg, images/restaurants/river/menu/4.jpg, images/restaurants/river/menu/5.jpg",
         "address": "Ярославская улица, 29",
         "link": "https://goo.gl/maps/yJTQ7Hb1PXvVPbEy5"
     },
     {
-        "id": "kveli",
+        "id": "prougli",
         "dot": "1",
-        "name": "Kveli",
-        "img": "images/restaurants/kveli.jpg",
-        "menu": "images/restaurants/kveli.jpg, images/restaurants/kveli.jpg, images/restaurants/kveli.jpg",
-        "address": "улица Михаила Сеспеля, 11",
-        "link": "https://goo.gl/maps/j4gMggQz7YX3SAHk7"
+        "name": "PRO УГЛИ",
+        "img": "images/restaurants/prougli/prougli.jpg",
+        "menu": "images/restaurants/prougli/menu/1.jpg, images/restaurants/prougli/menu/2.jpg, images/restaurants/prougli/menu/3.jpg, images/restaurants/prougli/menu/4.jpg",
+        "address": "улица Карла Маркса 52 к 1",
+        "link": "https://goo.gl/maps/PQCR1y9Dwyd9EXUA7"
     },
     {
         "id": "carlsson",
         "dot": "2",
         "name": "Carlsson",
         "img": "images/restaurants/carlsson.jpg",
-        "menu": "images/restaurants/carlsson.jpg, images/restaurants/carlsson.jpg, images/restaurants/carlsson.jpg",
+        "menu": "images/restaurants/carlsson.jpg",
         "address": "Ярославская ул., 27",
         "link": "https://goo.gl/maps/WcntEbHjTXLLhR9G8"
     },
     {
-        "id": "prougli",
+        "id": "kveli",
         "dot": "3",
-        "name": "PRO УГЛИ",
-        "img": "images/restaurants/prougli.jpg",
-        "menu": "images/restaurants/prougli.jpg, images/restaurants/prougli.jpg, images/restaurants/prougli.jpg",
-        "address": "улица Карла Маркса 52 к 1",
-        "link": "https://goo.gl/maps/PQCR1y9Dwyd9EXUA7"
+        "name": "Kveli",
+        "img": "images/restaurants/kveli/kveli.jpg",
+        "menu": "images/restaurants/kveli/menu/1.jpg, images/restaurants/kveli/menu/2.jpg, images/restaurants/kveli/menu/3.jpg, images/restaurants/kveli/menu/4.jpg, images/restaurants/kveli/menu/5.jpg, images/restaurants/kveli/menu/6.jpg, images/restaurants/kveli/menu/7.jpg, images/restaurants/kveli/menu/8.jpg, images/restaurants/kveli/menu/9.jpg, images/restaurants/kveli/menu/10.jpg, images/restaurants/kveli/menu/11.jpg, images/restaurants/kveli/menu/12.jpg, images/restaurants/kveli/menu/13.jpg, images/restaurants/kveli/menu/14.jpg, images/restaurants/kveli/menu/15.jpg, images/restaurants/kveli/menu/16.jpg, images/restaurants/kveli/menu/17.jpg, images/restaurants/kveli/menu/18.jpg, images/restaurants/kveli/menu/19.jpg, images/restaurants/kveli/menu/20.jpg, images/restaurants/kveli/menu/21.jpg, images/restaurants/kveli/menu/22.jpg",
+        "address": "улица Михаила Сеспеля, 11",
+        "link": "https://goo.gl/maps/j4gMggQz7YX3SAHk7"
     }
 ]

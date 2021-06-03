@@ -11,6 +11,10 @@
         overflow-y: auto;
         overflow-x: hidden;
         padding-right: 07%;
+
+        &.overflow {
+            overflow: hidden;
+        }
     }
 
     &__section {
