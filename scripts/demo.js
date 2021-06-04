@@ -330,10 +330,16 @@ const goodsCreateContent = (touchGood, back) => {
             for (const good of goods) {
                 good.classList.remove('show');
                 good.classList.add('hide');
-
-                if (good.dataset.filter === dataFilter || dataFilter === "все") {
-                    good.classList.add('show');
-                    good.classList.remove('hide');
+                
+                if (good.dataset.filter !== undefined) {
+                    const goodDataFilter = good.dataset.filter.split(', ');
+                    
+                    for (const el of goodDataFilter) {
+                        if (el === dataFilter || dataFilter === "все") {
+                            good.classList.add('show');
+                            good.classList.remove('hide');
+                        }
+                    }
                 }
             }
             lazyLoadingImg(goodsScroll, '.good_in-goods');
