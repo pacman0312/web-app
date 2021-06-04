@@ -1,9 +1,8 @@
 @charset "UTF-8";
 
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;
+@import url("https://fonts.googleapis.com/css2?family=Bitter:wght@400;
 
-600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Bitter:wght@400;500;600;700&display=swap");
+500;600;700&family=Nunito:wght@400;600;700&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -468,12 +467,6 @@ body {
   height: 4rem;
 }
 
-.app-touch-back.blur {
-  background-color: rgba(255, 255, 255, 0.3);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-}
-
 .app-touch-back__wrap {
   width: 100%;
   height: 100%;
@@ -497,6 +490,18 @@ body {
 .app-touch-back__title {
   font-size: 1.1rem;
   margin-left: 1.5rem;
+}
+
+.app-touch-back.menu {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.app-touch-back.menu .app-touch-back__wrap {
+  padding: 0 2rem;
+}
+
+.app-touch-back.menu .app-touch-back__icon {
+  left: 1rem;
 }
 
 .app-touch-main {
@@ -523,6 +528,10 @@ body {
 
 .app-touch-main__section {
   width: 100%;
+}
+
+.app-touch-main__section_welcome {
+  padding-bottom: 1rem;
 }
 
 .app-touch-main__section_goods {
@@ -652,7 +661,7 @@ body {
 }
 
 .app-touch-main .goods__wrap-scroll {
-  max-height: 28.75rem;
+  max-height: 27.6rem;
   overflow: hidden;
   margin: 0 -1rem;
   position: relative;
@@ -1485,49 +1494,14 @@ body {
 .app-touch-watch-menu__wrap-items {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr;
+  -ms-grid-columns: 1fr;
+  grid-template-columns: 1fr;
   grid-gap: .5rem;
-  padding: 4rem 1rem 1rem 1rem;
-}
-
-.app-touch-watch-menu__open-img {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 20;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.8);
-  opacity: 0;
-  visibility: hidden;
-  -webkit-transition: all .3s ease 0s;
-  -o-transition: all .3s ease 0s;
-  transition: all .3s ease 0s;
-}
-
-.app-touch-watch-menu__open-img img {
-  max-width: calc(100% - 2rem);
-  border-radius: 1rem;
-}
-
-.app-touch-watch-menu__open-img.active {
-  opacity: 1;
-  visibility: visible;
+  padding: 5rem 1rem 1rem 1rem;
 }
 
 .app-touch-watch-menu .item {
   width: 100%;
-  height: auto;
   border: 0.05rem solid #f2f2f2;
   border-radius: 1rem;
   overflow: hidden;
@@ -1535,32 +1509,20 @@ body {
 
 .app-touch-watch-menu .item__wrap {
   width: 100%;
-  padding-bottom: 100%;
+  min-height: 15rem;
   position: relative;
-  overflow: hidden;
-  z-index: 1;
-  border-radius: 1rem;
+  border-radius: inherit;
 }
 
 .app-touch-watch-menu .item__wrap-img {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 2;
+  border-radius: inherit;
 }
 
 .app-touch-watch-menu .item__img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-  object-fit: cover;
+  max-width: 100%;
   opacity: 0;
+  border-radius: inherit;
   -webkit-transition: all .3s ease 0s;
   -o-transition: all .3s ease 0s;
   transition: all .3s ease 0s;
@@ -1576,5 +1538,5 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 3;
+  background-color: transparent;
 }

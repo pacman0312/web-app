@@ -1,7 +1,7 @@
 [
     {
         "id": "river",
-        "dot": "0",
+        "index": "0",
         "name": "River",
         "img": "images/restaurants/river/river.jpg",
         "menu": "images/restaurants/river/menu/2.jpg, images/restaurants/river/menu/3.jpg, images/restaurants/river/menu/4.jpg, images/restaurants/river/menu/5.jpg",
@@ -10,7 +10,7 @@
     },
     {
         "id": "prougli",
-        "dot": "1",
+        "index": "1",
         "name": "PRO УГЛИ",
         "img": "images/restaurants/prougli/prougli.jpg",
         "menu": "images/restaurants/prougli/menu/1.jpg, images/restaurants/prougli/menu/2.jpg, images/restaurants/prougli/menu/3.jpg, images/restaurants/prougli/menu/4.jpg",
@@ -19,7 +19,7 @@
     },
     {
         "id": "carlsson",
-        "dot": "2",
+        "index": "2",
         "name": "Carlsson",
         "img": "images/restaurants/carlsson.jpg",
         "menu": "images/restaurants/carlsson.jpg",
@@ -28,7 +28,7 @@
     },
     {
         "id": "kveli",
-        "dot": "3",
+        "index": "3",
         "name": "Kveli",
         "img": "images/restaurants/kveli/kveli.jpg",
         "menu": "images/restaurants/kveli/menu/1.jpg, images/restaurants/kveli/menu/2.jpg, images/restaurants/kveli/menu/3.jpg, images/restaurants/kveli/menu/4.jpg, images/restaurants/kveli/menu/5.jpg, images/restaurants/kveli/menu/6.jpg, images/restaurants/kveli/menu/7.jpg, images/restaurants/kveli/menu/8.jpg, images/restaurants/kveli/menu/9.jpg, images/restaurants/kveli/menu/10.jpg, images/restaurants/kveli/menu/11.jpg, images/restaurants/kveli/menu/12.jpg, images/restaurants/kveli/menu/13.jpg, images/restaurants/kveli/menu/14.jpg, images/restaurants/kveli/menu/15.jpg, images/restaurants/kveli/menu/16.jpg, images/restaurants/kveli/menu/17.jpg, images/restaurants/kveli/menu/18.jpg, images/restaurants/kveli/menu/19.jpg, images/restaurants/kveli/menu/20.jpg, images/restaurants/kveli/menu/21.jpg, images/restaurants/kveli/menu/22.jpg",

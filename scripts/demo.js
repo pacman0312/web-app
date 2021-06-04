@@ -5,7 +5,11 @@ const appSettings = {
     width: document.documentElement.clientWidth,
     height: document.documentElement.clientHeight,
     breakpoint: 500,
+    noScroll: 2000,
+    sliderDelay: 300,
     lazyLoadingImgDelay: 300,
+    lazyLoadingImg: 'images/loading.png',
+    imgWelcome: './images/main/welcome/4.png',
     positionElements: {
         beforeend: 'beforeend'
     },
@@ -28,7 +32,6 @@ const appContent = {
                 text: 'смотреть все',
                 icon: 'не добавил'
             },
-            loadingImg: 'images/loading.png',
             choose: 'Выбрать'
         },
         restaurants: {
@@ -85,13 +88,13 @@ const lazyLoadingImg = async (elScroll, element, page) => {
 
     lazy(elScroll.offsetTop);
 
-    elScroll.addEventListener('scroll', function(e) {
-        if (page === 'x') lazy(e.target.scrollLeft);
-        else lazy(e.target.scrollTop);
+    elScroll.addEventListener('scroll', function(event) {
+        if (page === 'x') lazy(event.target.scrollLeft);
+        else lazy(event.target.scrollTop);
     });
 };
 
-const appBack = (element, title) => {
+const appBack = (element, title, el) => {
     element.insertAdjacentHTML(appSettings.positionElements.beforeend, `
         <div class="app-touch-back">
             <div class="app-touch-back__wrap">
@@ -102,6 +105,51 @@ const appBack = (element, title) => {
             </div>
         </div>
     `);
+
+    const back = document.querySelector('.app-touch-back');
+
+    if (el === 'menu') back.classList.add(el);
+};
+
+const slider = (restaurantObject, move, noScroll = undefined) => {
+    if (noScroll === undefined) {
+        restaurantObject.item.forEach(function(item, ind) {
+            if (ind == restaurantObject.position) {    
+                const img = item.querySelector('img');
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                    setTimeout(() => img.classList.add('active'), appSettings.sliderDelay);
+                }
+            }
+        });
+    } else {
+        noScroll.classList.add('overflow');
+        setTimeout(() => noScroll.classList.remove('overflow'), appSettings.noScroll);
+    
+        if (move === 'next') restaurantObject.position = (restaurantObject.position < restaurantObject.itemsCount - 1) ? restaurantObject.position + 1 : restaurantObject.itemsCount - 1;
+        if (move === 'prev') restaurantObject.position = (restaurantObject.position > restaurantObject.itemsCount - restaurantObject.itemsCount) ? restaurantObject.position - 1 : restaurantObject.itemsCount - restaurantObject.itemsCount;
+
+        restaurantObject.track.style.transform = `translateX(${-restaurantObject.movePosition * restaurantObject.position}px)`;
+        restaurantObject.dots.forEach(function(dot) {
+            dot.classList.remove('active');
+            if (dot.dataset.dot == restaurantObject.position) dot.classList.add('active');
+        });
+    
+        restaurantObject.item.forEach(function(item, ind) {
+            if (ind == restaurantObject.position) {
+                restaurantObject.seeMenu.dataset.menures = item.dataset.menu;
+                restaurantObject.seeMenu.dataset.nameres = item.dataset.name;
+    
+                const img = item.querySelector('img');
+                if (img.dataset.src) {
+                    img.src = img.dataset.src;
+                    img.setAttribute('data-src', '');
+                    setTimeout(() => img.classList.add('active'), appSettings.lazyLoadingImgDelay);
+                }
+            }
+        });
+    }
 };
 
 const appGetData = async (url, expectation) => {
@@ -141,7 +189,7 @@ const appCreateElements = (app, appTag, appTagClass, appTagPosition) => {
     return element;
 };
 
-const createGoodsInMain = (good, createGoodsInMainTouch) => {
+const createGoodsInMain = (good, createGoods) => {
     const {
         id, name, nameMin, img, ingredients: ing, category, time, main
     } = good;
@@ -151,7 +199,7 @@ const createGoodsInMain = (good, createGoodsInMainTouch) => {
             <div class="good__content">
                 <div class="good__wrap">
                     <div class="good__wrap-img">
-                        <img data-src="${img}" src="${appContent.main.goods.loadingImg}" alt="good-img-${id}" class="good__img">
+                        <img data-src="${img}" src="${appSettings.lazyLoadingImg}" alt="good-img-${id}" class="good__img">
                     </div>
                     <div class="good__time">${time}</div>
                     <div class="good__pepper"></div>
@@ -165,12 +213,12 @@ const createGoodsInMain = (good, createGoodsInMainTouch) => {
     `;
 
     if (main !== '') {
-        createGoodsInMainTouch.insertAdjacentHTML(appSettings.positionElements.beforeend, goodCode);
+        createGoods.insertAdjacentHTML(appSettings.positionElements.beforeend, goodCode);
     }
 };
-const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch, createDotsRestaurantInMainTouch) => {
+const createRestaurantsInMain = (restaurant, createRestaurants, createDots) => {
     const {
-        id, dot, name, img, menu, address, link
+        id, index, name, img, menu, address, link
     } = restaurant;
     
     const itemRestaurant = document.createElement('div');
@@ -181,12 +229,12 @@ const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch, creat
 
     const dots = document.createElement('span');
     dots.className = 'restaurants__slider-dot';
-    dots.setAttribute('data-dot', dot);
+    dots.setAttribute('data-dot', index);
 
     itemRestaurant.insertAdjacentHTML(appSettings.positionElements.beforeend, `
         <div class="restaurants__slider-item-content">
             <div class="restaurants__slider-item-wrap-img">
-                <img data-src="${img}" src="${appContent.main.goods.loadingImg}" alt="" class="restaurants__slider-item-img">
+                <img data-src="${img}" src="${appSettings.lazyLoadingImg}" alt="" class="restaurants__slider-item-img">
             </div>
             <div class="restaurants__slider-item-wrap-text">
                 <div class="restaurants__slider-item-name">${name}</div>
@@ -198,13 +246,13 @@ const createRestaurantssInMain = (restaurant, createRestaurantInMainTouch, creat
     `);
 
     if (id === 'kveli' || id === 'prougli') itemRestaurant.children[0].children[0].style.border = '.05rem solid #f2f2f2';
-    if (dot == 0) dots.classList.add('active');
+    if (index == 0) dots.classList.add('active');
 
-    createRestaurantInMainTouch.insertAdjacentElement(appSettings.positionElements.beforeend, itemRestaurant);
-    createDotsRestaurantInMainTouch.insertAdjacentElement(appSettings.positionElements.beforeend, dots);
+    createRestaurants.insertAdjacentElement(appSettings.positionElements.beforeend, itemRestaurant);
+    createDots.insertAdjacentElement(appSettings.positionElements.beforeend, dots);
 };
 
-const goodsCreateContent = (appTouchGoods, back) => {
+const goodsCreateContent = (touchGood, back) => {
     const goodsScroll = document.querySelector('.app-touch-good__scroll');
 
     back(goodsScroll, appContent.back.goods);
@@ -247,7 +295,7 @@ const goodsCreateContent = (appTouchGoods, back) => {
                     <div class="good__content">
                         <div class="good__wrap">
                             <div class="good__wrap-img">
-                                <img data-src="${img}" src="${appContent.main.goods.loadingImg}" alt="good-img-${id}" class="good__img good__img_src">
+                                <img data-src="${img}" src="${appSettings.lazyLoadingImg}" alt="good-img-${id}" class="good__img good__img_src">
                             </div>
                             <div class="good__time">${time}</div>
                             <div class="good__pepper"></div>
@@ -263,7 +311,7 @@ const goodsCreateContent = (appTouchGoods, back) => {
         lazyLoadingImg(goodsScroll, '.good_in-goods');
     });  
 
-    appTouchGoods.addEventListener('click', function(event) {
+    touchGood.addEventListener('click', function(event) {
         const category = event.target.closest('.app-touch-good__categories-el');
         const back = event.target.closest('.app-touch-back__icon');
 
@@ -393,29 +441,26 @@ const closeForm = form => {
     }, 300);
 };
 
-const watchMenu = (menu, appTouchWatchMenu, back) => {
+const watchMenu = (menu, touchWatchMenu, back) => {
     const watchMenuScroll = document.querySelector('.app-touch-watch-menu__scroll');
 
     const restaurantName = menu.dataset.nameres;
     const restaurantMenu = menu.dataset.menures.split(', ');
 
-    back(watchMenuScroll, restaurantName);
+    back(watchMenuScroll, restaurantName, 'menu');
+
     watchMenuScroll.insertAdjacentHTML(appSettings.positionElements.beforeend, `
-        <div class="app-touch-watch-menu__wrap-items"></div>
-        <div class="app-touch-watch-menu__open-img">
-            <img src="" alt="">
-        </div>    
+        <div class="app-touch-watch-menu__wrap-items"></div> 
     `);
 
     const watchMenuWrapItems = document.querySelector('.app-touch-watch-menu__wrap-items');
-    const watchMenuOpenImg = document.querySelector('.app-touch-watch-menu__open-img');
 
     for (const menu of restaurantMenu) {
         watchMenuWrapItems.insertAdjacentHTML(appSettings.positionElements.beforeend, `
             <div class="item">
                 <div class="item__wrap">
                     <div class="item__wrap-img">
-                        <img class="item__img" data-src="${menu}" src="${appContent.main.goods.loadingImg}" alt="">
+                        <img class="item__img open-img" data-src="${menu}" src="${appSettings.lazyLoadingImg}" alt="">
                     </div>
                     <div class="item__pepper"></div>
                 </div>
@@ -425,35 +470,20 @@ const watchMenu = (menu, appTouchWatchMenu, back) => {
 
     lazyLoadingImg(watchMenuScroll, '.item');
 
-    watchMenuScroll.addEventListener('click', function(event) {
-        const wrapImg = event.target.closest('.item__wrap');
-        const openImg = event.target.closest('.app-touch-watch-menu__open-img');
-
-        if (wrapImg) {
-            const imgSrc = wrapImg.querySelector('img').getAttribute('src');
-            watchMenuOpenImg.querySelector('img').setAttribute('src', imgSrc);
-            watchMenuOpenImg.classList.add('active');
-        }
-
-        if (openImg) {
-            openImg.classList.remove('active');
-        }
-    });
-
-    appTouchWatchMenu.addEventListener('click', function(event) {
+    touchWatchMenu.addEventListener('click', function(event) {
         const back = event.target.closest('.app-touch-back__icon');
-
+        
         if (back) {
             this.classList.remove('active');
             watchMenuScroll.textContent = '';
-        };
+        }
     })
 };
 
-const initialization = (appTouch, appTouchMainScroll, restaurantSlider, sectionGoods, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm, watchMenu, appTouchWatchMenu) => {
+const initialization = (appObject, restaurantObject, goodsCreateContent, back, slider, formObj, openForm, closeForm, watchMenu) => {
 
-    appTouch.addEventListener('click', function(e) {
-        const good = e.target.closest('.good');
+    appObject.touch.addEventListener('click', function(event) {
+        const good = event.target.closest('.good');
 
         if (good) { 
             const goodName = good.dataset.name;
@@ -468,70 +498,28 @@ const initialization = (appTouch, appTouchMainScroll, restaurantSlider, sectionG
                 goodChoose.classList.remove('active');
             }, 1000);
 
-            openForm(form, goodName, goodCleanName, goodIngredients, goodImg, goodTime);
+            openForm(formObj, goodName, goodCleanName, goodIngredients, goodImg, goodTime);
         } else return;
     });
 
-    sectionGoods.addEventListener('click', function(e) {
-        const seeAll = e.target.closest('#see-all-goods');
+    appObject.sectionGoodsInMain.addEventListener('click', function(event) {
+        const seeAll = event.target.closest('#see-all-goods');
         
         if (seeAll) {
-            appTouchGoods.classList.add('active');
-            setTimeout(() => goodsCreateContent(appTouchGoods, back), 100);
+            appObject.touchGood.classList.add('active');
+            setTimeout(() => goodsCreateContent(appObject.touchGood, back), 100);
         } else return;
     });
-    
-    // нужно написать свой свайп. этот работает не так, как мне нужно
-    appTouchGoods.addEventListener('swiped-left', function(event) {
-        this.classList.remove('active');
-        this.children[0].textContent = '';
-    });
 
     // нужно написать свой свайп. этот работает не так, как мне нужно
-    restaurantSlider.slider.addEventListener('swiped-left', function() { 
-        // next
-
-        appTouchMainScroll.classList.add('overflow');
-        setTimeout(() => appTouchMainScroll.classList.remove('overflow'), 2000);
-
-        restaurantSlider.position = (restaurantSlider.position < restaurantSlider.itemsCount - 1) ? restaurantSlider.position + 1 : restaurantSlider.itemsCount - 1;
-        
-        restaurantSlider.track.style.transform = `translateX(${-restaurantSlider.movePosition * restaurantSlider.position}px)`;
-        restaurantSlider.dots.forEach(function(dot) {
-            dot.classList.remove('active');
-            if (dot.dataset.dot == restaurantSlider.position) dot.classList.add('active');
-        });
-
-        restaurantSlider.item.forEach(function(item, ind) {
-            if (ind == restaurantSlider.position) {
-                restaurantSlider.seeMenu.dataset.menures = item.dataset.menu;
-                restaurantSlider.seeMenu.dataset.nameres = item.dataset.name
-            }
-        });
+    restaurantObject.slider.addEventListener('swiped-left', function(event) { 
+        slider(restaurantObject, 'next', appObject.mainScroll);
     });
     // нужно написать свой свайп. этот работает не так, как мне нужно
-    restaurantSlider.slider.addEventListener('swiped-right', function() {
-        // prev
-
-        appTouchMainScroll.classList.add('overflow');
-        setTimeout(() => appTouchMainScroll.classList.remove('overflow'), 2000);
-
-        restaurantSlider.position = (restaurantSlider.position > restaurantSlider.itemsCount - restaurantSlider.itemsCount) ? restaurantSlider.position - 1 : restaurantSlider.itemsCount - restaurantSlider.itemsCount;
-        
-        restaurantSlider.track.style.transform = `translateX(${-restaurantSlider.movePosition * restaurantSlider.position}px)`;
-        restaurantSlider.dots.forEach(function(dot) {
-            dot.classList.remove('active');
-            if (dot.dataset.dot == restaurantSlider.position) dot.classList.add('active');
-        });
-
-        restaurantSlider.item.forEach(function(item, ind) {
-            if (ind == restaurantSlider.position) {
-                restaurantSlider.seeMenu.dataset.menures = item.dataset.menu;
-                restaurantSlider.seeMenu.dataset.nameres = item.dataset.name
-            }
-        });
+    restaurantObject.slider.addEventListener('swiped-right', function() {
+        slider(restaurantObject, 'prev', appObject.mainScroll);
     });
-    restaurantSlider.restaurants.addEventListener('click', function(event) {
+    restaurantObject.restaurants.addEventListener('click', function(event) {
         const dot = event.target.closest('.restaurants__slider-dot');
         const seeMenu = event.target.closest('#see-menu');
         const restaurant = event.target.closest('.restaurants__slider-item-wrap-img');
@@ -545,44 +533,45 @@ const initialization = (appTouch, appTouchMainScroll, restaurantSlider, sectionG
             }
 
             const ind = Number(dot.dataset.dot);
-            restaurantSlider.position = ind;
+            restaurantObject.position = ind;
 
             dot.classList.add('active');
-            restaurantSlider.track.style.transform = `translateX(${-restaurantSlider.movePosition * restaurantSlider.position}px)`;
+            restaurantObject.track.style.transform = `translateX(${-restaurantObject.movePosition * restaurantObject.position}px)`;
 
-            restaurantSlider.item.forEach(function(item, ind) {
-                if (ind == restaurantSlider.position) {
-                    restaurantSlider.seeMenu.dataset.menures = item.dataset.menu;
-                    restaurantSlider.seeMenu.dataset.nameres = item.dataset.name
+            restaurantObject.item.forEach(function(item, ind) {
+                if (ind == restaurantObject.position) {
+                    restaurantObject.seeMenu.dataset.menures = item.dataset.menu;
+                    restaurantObject.seeMenu.dataset.nameres = item.dataset.name
                 }
             });
         }
 
         if (seeMenu || restaurant) {
-            appTouchWatchMenu.classList.add('active');
-            setTimeout(() => watchMenu(menu, appTouchWatchMenu, back), 100);
+            appObject.touchWatchMenu.classList.add('active');
+            setTimeout(() => watchMenu(menu, appObject.touchWatchMenu, back), 100);
         }
     });
 
-    form.formClose.addEventListener('click', function(event) {
-        if (this.nextElementSibling.classList.contains('active')) closeForm(form);
+    formObj.formClose.addEventListener('click', function(event) {
+        if (this.nextElementSibling.classList.contains('active')) closeForm(formObj);
         else return;
     });
-    form.formWrapForm.addEventListener('swiped-down', function(event) {
-        closeForm(form);
+    formObj.formWrapForm.addEventListener('swiped-down', function(event) {
+        closeForm(formObj);
     });
 };
 
 const appTouch = (
     back,
+    slider,
     createElements,
     createGoodsInMain,
-    createRestaurantssInMain,
+    createRestaurantsInMain,
     goodsCreateContent,
     init,
     openForm,
     closeForm,
-    watchMenu
+    watchMenu   
 ) => {
     app.classList.add('app_TOUCH');
 
@@ -599,7 +588,7 @@ const appTouch = (
                     <div class="app-touch-main__welcome-slider welcome-slider">
                         <div class="welcome-slider__item lazy">
                             <div class="welcome-slider__wrap-img">
-                                <img data-src="./images/main/welcome/4.png" src="${appContent.main.goods.loadingImg}" alt="welcome4">
+                                <img data-src="${appSettings.imgWelcome}" src="${appSettings.lazyLoadingImg}" alt="welcome4">
                             </div>
                         </div>
                     </div>
@@ -658,14 +647,18 @@ const appTouch = (
 
     appTouchWatchMenu.insertAdjacentHTML(appSettings.positionElements.beforeend, `<div class="app-touch-watch-menu__scroll"></div>`);
 
-    const appTouchMainScroll = document.querySelector('.app-touch-main__scroll');
+    const appObject = {
+        touch: appTouch,
+        touchGood: appTouchGoods,
+        touchWatchMenu: appTouchWatchMenu,
+        mainScroll: document.querySelector('.app-touch-main__scroll'),
+        sectionGoodsInMain: document.querySelector('.app-touch-main__section_goods'),
+        createGoodsInMain: document.getElementById('create-goods-in-main'),
+        createRestaurantsInMain: document.getElementById('create-restaurant-in-main'),
+        createDotsInMain: document.getElementById('create-dots-restaurant-in-main')
+    }
 
-    const createGoodsInMainTouch = document.getElementById('create-goods-in-main');
-    const sectionGoodsInMainTouch = document.querySelector('.app-touch-main__section_goods');
-
-    const createRestaurantInMainTouch = document.getElementById('create-restaurant-in-main');
-    const createDotsRestaurantInMainTouch = document.getElementById('create-dots-restaurant-in-main');
-    const restaurantSlider = {
+    const restaurantObject = {
         restaurants: document.querySelector('.restaurants'),
         slider: document.querySelector('.restaurants__slider'),
         track: document.querySelector('.restaurants__slider-track'),
@@ -674,7 +667,7 @@ const appTouch = (
         slidesToScroll: appSettings.sliders.slidesToScroll
     };
 
-    const form = {
+    const formObj = {
         appTouchForm: appTouchForm,
         formGood: document.querySelector('.form__good'),
         formClose: appTouchForm.children[0],
@@ -685,42 +678,43 @@ const appTouch = (
         fromIngredients: document.querySelector('.form__ingredients'),
     }
 
-    appGetData('./db/goods.json', createGoodsInMainTouch).then(data => {
-        data.forEach(good => createGoodsInMain(good, createGoodsInMainTouch));
+    appGetData('./db/goods.json', appObject.createGoodsInMain).then(data => {
+        data.forEach(good => createGoodsInMain(good, appObject.createGoodsInMain));
 
-        console.log(':: In main', createGoodsInMainTouch.children.length, 'elmenets');
-        lazyLoadingImg(createGoodsInMainTouch, '.good_in-main', 'x');
+        console.log(':: In main', appObject.createGoodsInMain.children.length, 'elmenets');
+        lazyLoadingImg(appObject.createGoodsInMain, '.good_in-main', 'x');
     });
 
     appGetData('./db/restaurants.json').then(data => {
-        data.forEach(restaurant => createRestaurantssInMain(restaurant, createRestaurantInMainTouch, createDotsRestaurantInMainTouch));
+        data.forEach(restaurant => createRestaurantsInMain(restaurant, appObject.createRestaurantsInMain, appObject.createDotsInMain));
 
-        restaurantSlider['item'] = document.querySelectorAll('.restaurants__slider-item');
-        restaurantSlider['itemsCount'] = restaurantSlider.item.length;
-        restaurantSlider['dots'] = document.querySelectorAll('.restaurants__slider-dot');
-        restaurantSlider['movePosition'] = restaurantSlider.slidesToScroll * restaurantSlider.slider.clientWidth + 16;
+        restaurantObject['item'] = document.querySelectorAll('.restaurants__slider-item');
+        restaurantObject['itemsCount'] = restaurantObject.item.length;
+        restaurantObject['dots'] = document.querySelectorAll('.restaurants__slider-dot');
+        restaurantObject['movePosition'] = restaurantObject.slidesToScroll * restaurantObject.slider.clientWidth + 16;
 
-        restaurantSlider.item.forEach(function(item, ind) {
-            if (ind == restaurantSlider.position) {
-                restaurantSlider.seeMenu.dataset.menures = item.dataset.menu;
-                restaurantSlider.seeMenu.dataset.nameres = item.dataset.name
+        restaurantObject.item.forEach(function(item, ind) {
+            if (ind == restaurantObject.position) {
+                restaurantObject.seeMenu.dataset.menures = item.dataset.menu;
+                restaurantObject.seeMenu.dataset.nameres = item.dataset.name
             }
         });
 
-        lazyLoadingImg(appTouchMainScroll, '.restaurants__slider-item');
+        slider(restaurantObject);
     });
 
-    lazyLoadingImg(appTouchMainScroll, '.lazy');
+    lazyLoadingImg(appObject.mainScroll, '.lazy');
 
-    init(appTouch, appTouchMainScroll, restaurantSlider, sectionGoodsInMainTouch, goodsCreateContent, appTouchGoods, back, form, openForm, closeForm, watchMenu, appTouchWatchMenu);
+    init(appObject, restaurantObject, goodsCreateContent, back, slider, formObj, openForm, closeForm, watchMenu);
 };
 const appDesktop = () => app.classList.add('app_DESKTOP');
 
 if (touchScreen) appTouch(
     appBack,
+    slider,
     appCreateElements,
     createGoodsInMain,
-    createRestaurantssInMain,
+    createRestaurantsInMain,
     goodsCreateContent,
     initialization,
     openForm,

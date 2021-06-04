@@ -20,7 +20,9 @@
     &__section {
         width: 100%;
 
-        &_welcome {}
+        &_welcome {
+            padding-bottom: 1rem;
+        }
 
         &_goods {
             padding: 0 1rem 1rem 1rem;
@@ -138,7 +140,7 @@
     & .goods {
 
         &__wrap-scroll {
-            max-height: 28.75rem;
+            max-height: 27.6rem;
             overflow: hidden;
             margin: 0 -1rem;
             position: relative;
